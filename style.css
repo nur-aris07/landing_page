@@ -73,7 +73,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   margin-bottom: 14px;
 }
 .section-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(1.8rem, 4vw, 2.8rem);
   font-weight: 800;
   color: var(--text-dark);
@@ -163,7 +163,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   height: 100%;
 }
 .navbar__logo {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Bebas Neue', sans-serif;
   font-weight: 800;
   font-size: 1.4rem;
   color: var(--white);
@@ -264,7 +264,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 }
 .hero__badge .divider { color: rgba(255,255,255,.3); }
 .hero__title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(2.4rem, 6vw, 4.2rem);
   font-weight: 800;
   color: var(--white);
@@ -349,12 +349,29 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 }
 .service-card:hover::before { transform: scaleX(1); }
 .service-card__icon {
-  font-size: 2.8rem;
+  width: 68px;
+  height: 68px;
+  margin-inline: auto;
   margin-bottom: 20px;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: rgba(232,184,75,.12);
+  border: 1px solid rgba(232,184,75,.2);
+  color: var(--accent);
+  transition: var(--transition);
+}
+.service-card__icon i {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+.service-card:hover .service-card__icon {
+  background: var(--accent);
+  color: var(--primary);
 }
 .service-card__title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Bebas Neue', sans-serif;
   font-size: 1.2rem;
   font-weight: 700;
   margin-bottom: 12px;
@@ -397,11 +414,24 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   box-shadow: var(--shadow-md);
 }
 .why-card__icon {
-  font-size: 2.4rem;
+  width: 60px;
+  height: 60px;
+  margin-inline: auto;
   margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: rgba(232,184,75,.1);
+  border: 1px solid rgba(232,184,75,.18);
+  color: var(--accent);
+}
+.why-card__icon i {
+  font-size: 1.6rem;
+  line-height: 1;
 }
 .why-card h3 {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Bebas Neue', sans-serif;
   font-size: 1.15rem;
   font-weight: 700;
   margin-bottom: 10px;
@@ -478,9 +508,15 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3.6rem;
   position: relative;
   overflow: hidden;
+}
+.catalog-card__img i {
+  font-size: 3rem;
+  color: rgba(255,255,255,.88);
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,.2));
+  z-index: 1;
+  position: relative;
 }
 /* Category image backgrounds */
 .cat--otomotif { background: linear-gradient(135deg, #1e3a5f 0%, #3B82F6 100%); }
@@ -541,7 +577,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   flex: 1;
 }
 .catalog-card__body h4 {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Bebas Neue', sans-serif;
   font-size: 1rem;
   font-weight: 700;
   margin-bottom: 12px;
@@ -591,14 +627,14 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 }
 .stat-item { color: var(--white); }
 .stat-num {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(2.4rem, 5vw, 3.6rem);
   font-weight: 800;
   color: var(--accent);
   line-height: 1;
 }
 .stat-suffix {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(1.8rem, 3vw, 2.6rem);
   font-weight: 800;
   color: var(--accent);
@@ -655,7 +691,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Syne', sans-serif;
+  font-family: 'Bebas Neue', sans-serif;
   font-weight: 700;
   color: var(--primary);
   font-size: 1.1rem;
@@ -677,7 +713,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   margin-inline: auto;
 }
 .cta-banner__inner h2 {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Bebas Neue', sans-serif;
   font-size: clamp(1.6rem, 4vw, 2.4rem);
   font-weight: 800;
   color: var(--white);
@@ -700,7 +736,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   padding-block: 64px;
 }
 .footer__logo {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Bebas Neue', sans-serif;
   font-weight: 800;
   font-size: 1.5rem;
   color: var(--white);
@@ -729,7 +765,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   gap: 32px;
 }
 .footer__col h4 {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Bebas Neue', sans-serif;
   font-weight: 700;
   color: var(--white);
   font-size: .95rem;
