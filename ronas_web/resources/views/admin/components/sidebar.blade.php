@@ -70,8 +70,8 @@
             <div class="sidebar-footer-name">Admin</div>
             <div class="sidebar-footer-role">Super Admin</div>
         </div>
-        <button class="sidebar-footer-logout" aria-label="Keluar">
+        <a href="/logout" class="sidebar-footer-logout" aria-label="Keluar">
             <i class="ti ti-logout"></i>
-        </button>
+        </a>
     </div>
 </aside>
