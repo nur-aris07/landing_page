@@ -890,6 +890,14 @@
             padding-right: 16px;
         }
     }
+    .ti-loader-2 {
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
   </style>
   @stack('styles')
 </head>

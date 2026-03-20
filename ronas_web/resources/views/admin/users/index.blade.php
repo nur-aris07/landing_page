@@ -163,25 +163,11 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Email</label>
-                            <input id="emailAdd" name="email" type="email" class="form-input" placeholder="Masukkan email" required>
-                        </div>
-
-                        <div class="form-group">
                             <label class="form-label">Role</label>
                             <select id="roleAdd" name="role" class="form-select">
                                 <option value="">Pilih Role</option>
-                                <option value="Super Admin">Super Admin</option>
-                                <option value="Admin">Admin</option>
-                                <option value="User">User</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Status</label>
-                            <select id="statusAdd" name="status" class="form-select">
-                                <option value="1">Aktif</option>
-                                <option value="0">Nonaktif</option>
+                                <option value="superadmin">Super Admin</option>
+                                <option value="admin">Admin</option>
                             </select>
                         </div>
 
@@ -241,17 +227,11 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Email</label>
-                            <input id="emailEdit" name="email" type="email" class="form-input" placeholder="Masukkan email" required>
-                        </div>
-
-                        <div class="form-group">
                             <label class="form-label">Role</label>
                             <select id="roleEdit" name="role" class="form-select">
                                 <option value="">Pilih Role</option>
-                                <option value="Super Admin">Super Admin</option>
-                                <option value="Admin">Admin</option>
-                                <option value="User">User</option>
+                                <option value="superadmin">Super Admin</option>
+                                <option value="admin">Admin</option>
                             </select>
                         </div>
 
@@ -293,7 +273,7 @@
                     </button>
                 </div>
 
-                <form id="modalFormReset" class="modal-form" action="{{ route('users.add') }}" method="POST">
+                <form id="modalFormReset" class="modal-form" action="{{ route('users.reset_password') }}" method="POST">
                     @csrf
 
                     <div class="modal-body">
@@ -396,7 +376,7 @@
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#usersTable').DataTable({
+            let table = $('#usersTable').DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -439,6 +419,35 @@
             $('#modalCloseAdd, #modalCancelAdd, #modalBackdropAdd').on('click', function () {
                 closeModal('#modalAdd');
             });
+            $('#modalFormAdd').on('submit', function(e) {
+                e.preventDefault();
+
+                let form = $(this);
+                let btn = $('#formSubmitAdd');
+
+                btn.prop('disabled', true);
+                $('#formSubmitTextAdd').text('Menyimpan...');
+                $('#formSpinnerAdd').removeClass('is-hidden');
+
+                $.ajax({
+                    url: form.attr('action'),
+                    method: 'POST',
+                    data: form.serialize(),
+                    success: function(res) {
+                        closeModal('#modalAdd');
+                        form[0].reset();
+                        table.ajax.reload(null, false);
+                    },
+                    error: function(xhr) {
+                        alert('Terjadi kesalahan');
+                    },
+                    complete: function() {
+                        btn.prop('disabled', false);
+                        $('#formSubmitTextAdd').text('Simpan');
+                        $('#formSpinnerAdd').addClass('is-hidden');
+                    }
+                });
+            });
 
             $(document).on('click', '.edit-btn', function () {
                 $('#idEdit').val($(this).data('id'));
@@ -453,6 +462,34 @@
             $('#modalCloseEdit, #modalCancelEdit, #modalBackdropEdit').on('click', function () {
                 closeModal('#modalEdit');
             });
+            $('#modalFormEdit').on('submit', function(e) {
+                e.preventDefault();
+
+                let form = $(this);
+                let btn = $('#formSubmitEdit');
+
+                btn.prop('disabled', true);
+                $('#formSubmitTextEdit').text('Mengupdate...');
+                $('#formSpinnerEdit').removeClass('is-hidden');
+
+                $.ajax({
+                    url: form.attr('action'),
+                    method: 'POST',
+                    data: form.serialize(),
+                    success: function(res) {
+                        closeModal('#modalEdit');
+                        table.ajax.reload(null, false);
+                    },
+                    error: function() {
+                        alert('Gagal update');
+                    },
+                    complete: function() {
+                        btn.prop('disabled', false);
+                        $('#formSubmitTextEdit').text('Update');
+                        $('#formSpinnerEdit').addClass('is-hidden');
+                    }
+                });
+            });
 
             $(document).on('click', '.reset-btn', function () {
                 $('#idReset').val($(this).data('id'));
@@ -460,6 +497,34 @@
             });
             $('#modalCloseReset, #modalCancelReset, #modalBackdropReset').on('click', function () {
                 closeModal('#modalReset');
+            });
+            $('#modalFormReset').on('submit', function(e) {
+                e.preventDefault();
+
+                let form = $(this);
+                let btn = $('#formSubmitReset');
+
+                btn.prop('disabled', true);
+                $('#formSubmitTextReset').text('Menyimpan...');
+                $('#formSpinnerReset').removeClass('is-hidden');
+
+                $.ajax({
+                    url: form.attr('action'),
+                    method: 'POST',
+                    data: form.serialize(),
+                    success: function() {
+                        closeModal('#modalReset');
+                        form[0].reset();
+                    },
+                    error: function() {
+                        alert('Gagal reset password');
+                    },
+                    complete: function() {
+                        btn.prop('disabled', false);
+                        $('#formSubmitTextReset').text('Simpan');
+                        $('#formSpinnerReset').addClass('is-hidden');
+                    }
+                });
             });
 
             $(document).on('click', '.delete-btn', function () {
@@ -470,10 +535,30 @@
             $('#modalCloseDelete, #modalCancelDelete, #modalBackdropDelete').on('click', function () {
                 closeModal('#modalDelete');
             });
-            $('#modalFormDelete').on('submit', function () {
+            $('#modalFormDelete').on('submit', function (e) {
+                e.preventDefault();
+                let form = $(this);
                 $('#formSubmitDelete').prop('disabled', true);
                 $('#formSubmitTextDelete').text('Menghapus...');
                 $('#formSpinnerDelete').removeClass('is-hidden');
+
+                $.ajax({
+                    url: form.attr('action'),
+                    method: 'POST',
+                    data: form.serialize(),
+                    success: function (res) {
+                        closeModal('#modalDelete');
+                        table.ajax.reload(null, false);
+                    },
+                    error: function () {
+                        alert('Gagal menghapus');
+                    },
+                    complete: function() {
+                        $('#formSubmitDelete').prop('disabled', false);
+                        $('#formSubmitTextDelete').text('Hapus');
+                        $('#formSpinnerDelete').addClass('is-hidden');
+                    }
+                });
             });
         });
 
