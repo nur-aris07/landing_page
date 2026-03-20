@@ -3,6 +3,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <style>
         .admin-data-table {
             width: 100% !important;
@@ -374,7 +375,15 @@
 
 @push('scripts')
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script>
+        toastr.options = {
+            "closeButton": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "timeOut": "3000"
+        };
+
         $(document).ready(function () {
             let table = $('#usersTable').DataTable({
                 processing: true,
@@ -437,9 +446,15 @@
                         closeModal('#modalAdd');
                         form[0].reset();
                         table.ajax.reload(null, false);
+                        toastr.success(res.message);
                     },
                     error: function(xhr) {
-                        alert('Terjadi kesalahan');
+                        let res = xhr.responseJSON;
+                        if (xhr.status === 422) {
+                            toastr.error(res.message);
+                        } else {
+                            toastr.error(res?.message || 'Terjadi kesalahan');
+                        }
                     },
                     complete: function() {
                         btn.prop('disabled', false);
@@ -479,9 +494,15 @@
                     success: function(res) {
                         closeModal('#modalEdit');
                         table.ajax.reload(null, false);
+                        toastr.success(res.message);
                     },
-                    error: function() {
-                        alert('Gagal update');
+                    error: function(xhr) {
+                        let res = xhr.responseJSON;
+                        if (xhr.status === 422) {
+                            toastr.error(res.message);
+                        } else {
+                            toastr.error(res?.message || 'Terjadi kesalahan');
+                        }
                     },
                     complete: function() {
                         btn.prop('disabled', false);
@@ -515,9 +536,15 @@
                     success: function() {
                         closeModal('#modalReset');
                         form[0].reset();
+                        toastr.success(res.message);
                     },
-                    error: function() {
-                        alert('Gagal reset password');
+                    error: function(xhr) {
+                        let res = xhr.responseJSON;
+                        if (xhr.status === 422) {
+                            toastr.error(res.message);
+                        } else {
+                            toastr.error(res?.message || 'Terjadi kesalahan');
+                        }
                     },
                     complete: function() {
                         btn.prop('disabled', false);
@@ -549,9 +576,15 @@
                     success: function (res) {
                         closeModal('#modalDelete');
                         table.ajax.reload(null, false);
+                        toastr.success(res.message);
                     },
-                    error: function () {
-                        alert('Gagal menghapus');
+                    error: function (xhr) {
+                        let res = xhr.responseJSON;
+                        if (xhr.status === 422) {
+                            toastr.error(res.message);
+                        } else {
+                            toastr.error(res?.message || 'Terjadi kesalahan');
+                        }
                     },
                     complete: function() {
                         $('#formSubmitDelete').prop('disabled', false);

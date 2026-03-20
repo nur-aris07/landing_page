@@ -90,7 +90,7 @@ class UsersController extends Controller
                 'is_active'  => 1,
                 'created_at' => now(),
             ]);
-        }, 'Berhasil menambahkan Data User baru.');
+        }, 'Berhasil menambahkan Data User baru.', true);
     }
 
     public function update(Request $request) {
@@ -124,7 +124,7 @@ class UsersController extends Controller
                 'role'      => $request->role,
                 'is_active' => $request->status,
             ]);
-        }, 'Berhasil Memperbarui Data User.');
+        }, 'Berhasil Memperbarui Data User.', true);
     }
 
     public function resetPassword(Request $request) {
@@ -152,7 +152,7 @@ class UsersController extends Controller
             $user->update([
                 'password' => Hash::make($request->password)
             ]);
-        }, 'Berhasil Memperbarui Password User.');
+        }, 'Berhasil Memperbarui Password User.', true);
     }
 
     public function destroy(Request $request) {
