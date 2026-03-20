@@ -1,6 +1,6 @@
 <aside id="sidebar" role="navigation" aria-label="Navigasi utama">
     <div class="sidebar-header">
-        <span class="sidebar-logo">RONAS</span>
+        <span class="sidebar-logo">PUTRA RONAS</span>
         <button class="sidebar-toggle sidebar-toggle-desktop" id="sidebarToggle" aria-expanded="true" aria-label="Toggle sidebar">
             <i class="ti ti-layout-sidebar-left-collapse"></i>
         </button>
@@ -39,7 +39,7 @@
 
         <!-- GROUP: KONTEN -->
         <div class="nav-group-label">KONTEN</div>
-        <a href="#" class="nav-item" data-page="testimoni">
+        <a href="/testimoni" class="nav-item {{ request()->is('testimoni*') ? 'active' : '' }}" data-page="testimoni">
             <i class="ti ti-message-circle-2 nav-icon"></i>
             <span class="nav-label">Testimoni</span>
             <span class="tooltip">Testimoni</span>
@@ -51,6 +51,11 @@
             <i class="ti ti-user-cog nav-icon"></i>
             <span class="nav-label">Users</span>
             <span class="tooltip">Users</span>
+        </a>
+        <a href="/settings" class="nav-item {{ request()->is('settings*') ? 'active' : '' }}" data-page="settings">
+            <i class="ti ti-settings nav-icon"></i>
+            <span class="nav-label">Settings</span>
+            <span class="tooltip">Settings</span>
         </a>
         <a href="#" class="nav-item" data-page="statistik">
             <i class="ti ti-chart-bar nav-icon"></i>
