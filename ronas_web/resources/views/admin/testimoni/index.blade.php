@@ -246,7 +246,7 @@
                         </div>
                         <div class="form-group">
                             <label>Status</label>
-                            <select name="is_active" class="form-select">
+                            <select id="statusEdit" name="status" class="form-select">
                                 <option value="1">Aktif</option>
                                 <option value="0">Nonaktif</option>
                             </select>
@@ -393,8 +393,8 @@
             $('#modalFormAdd').on('submit', function(e) {
                 e.preventDefault();
 
-                let form = $(this)[0];
-                let data = new FormData(form);
+                let form = $(this);
+                let data = new FormData(this);
                 let btn = $('#formSubmitAdd');
 
                 btn.prop('disabled', true);
@@ -405,9 +405,11 @@
                     url: form.attr('action'),
                     method: 'POST',
                     data: data, 
+                    processData: false,
+                    contentType: false,
                     success: function(res) {
                         closeModal('#modalAdd');
-                        form.reset();
+                        form[0].reset();
                         table.ajax.reload(null, false);
                         toastr.success(res.message);
                     },
@@ -445,6 +447,7 @@
                 e.preventDefault();
 
                 let form = $(this);
+                let data = new FormData(this);
                 let btn = $('#formSubmitEdit');
 
                 btn.prop('disabled', true);
@@ -454,9 +457,12 @@
                 $.ajax({
                     url: form.attr('action'),
                     method: 'POST',
-                    data: form.serialize(),
+                    data: data,
+                    processData: false,
+                    contentType: false,
                     success: function(res) {
                         closeModal('#modalEdit');
+                        form[0].reset();
                         table.ajax.reload(null, false);
                         toastr.success(res.message);
                     },

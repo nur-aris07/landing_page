@@ -1,5 +1,5 @@
 @extends('admin.layouts.admin')
-@section('title', 'Settings')
+@section('title', 'Services')
 
 @push('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
@@ -107,12 +107,12 @@
 @section('content')
    <div class="page-header fade-in-up">
         <div>
-            <h1 class="page-title">Settings</h1>
-            <p class="page-subtitle">Kelola konfigurasi aplikasi secara dinamis tanpa ubah kode.</p>
+            <h1 class="page-title">Service Category</h1>
+            <p class="page-subtitle">Kelola kategori layanan yang ditampilkan kepada pengguna.</p>
         </div>
         <button id="add-btn" class="qa-btn primary">
             <i class="ti ti-plus"></i>
-            <span>Tambah Setting</span>
+            <span>Tambah Service</span>
         </button>
     </div>
 
@@ -122,20 +122,16 @@
                 <thead>
                     <tr>
                         <th width="5%">No</th>
-                        <th>Label</th>
-                        <th>Key</th>
-                        <th>Value</th>
-                        <th>Type</th>
-                        <th>Group</th>
+                        <th>Kategori</th>
+                        <th>Deskripsi</th>
+                        <th>Icon</th>
+                        <th>Status</th>
                         <th width="12%">Aksi</th>
                     </tr>
                 </thead>
             </table>
         </div>
     </section>
-    @php
-        $isSuperadmin = (Auth::user()->role === 'superadmin');
-    @endphp
     {{-- Modal Add --}}
     <div id="modalAdd" class="modal">
         <div class="modal-backdrop" id="modalBackdropAdd"></div>
@@ -144,8 +140,8 @@
             <div class="modal-dialog">
                 <div class="modal-header">
                     <div>
-                        <h3 class="modal-title">Tambah Settings</h3>
-                        <p class="modal-subtitle">Isi data Konfigurasi dengan benar.</p>
+                        <h3 class="modal-title">Tambah Service</h3>
+                        <p class="modal-subtitle">Isi data Layanan dengan benar.</p>
                     </div>
 
                     <button type="button" id="modalCloseAdd" class="modal-close">
@@ -153,54 +149,36 @@
                     </button>
                 </div>
 
-                <form id="modalFormAdd" class="modal-form" action="{{ route('settings.add') }}" method="POST">
+                <form id="modalFormAdd" class="modal-form" action="{{ route('services.add') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
-                            <label class="form-label">Label</label>
-                            <input name="label" type="text" class="form-input" placeholder="Contoh: Nama Website" required>
+                            <label>Nama Kategori</label>
+                            <input name="name" class="form-input" required>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Key</label>
-                            <input name="key" type="text" class="form-input" placeholder="contoh: site_name" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Type</label>
-                            <select name="type" id="typeAdd" class="form-select">
-                                <option value="text">Text</option>
-                                <option value="textarea">Textarea</option>
-                                <option value="number">Number</option>
-                                <option value="boolean">Boolean</option>
-                                <option value="url">URL</option>
-                                <option value="email">Email</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Value</label>
-                            <input id="valueAdd" name="value" type="text" class="form-input">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Group</label>
-                            <input name="group_name" type="text" class="form-input" placeholder="general">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Deskripsi</label>
+                            <label>Deskripsi</label>
                             <textarea name="description" class="form-input"></textarea>
                         </div>
-                        @if($isSuperadmin)
-                            <div class="form-group">
-                                <label class="form-label">Core Setting</label>
-                                <select id="isCoreEdit" name="is_core" class="form-select">
-                                    <option value="0">Tidak</option>
-                                    <option value="1">Ya</option>
-                                </select>
-                            </div>
-                        @endif
+
+                        <div class="form-group">
+                            <label>Icon (class)</label>
+                            <input name="icon" class="form-input" placeholder="ti ti-home">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Gambar</label>
+                            <input type="file" name="image" class="form-input">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select name="is_active" class="form-select">
+                                <option value="1">Aktif</option>
+                                <option value="0">Nonaktif</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="modal-footer">
@@ -223,8 +201,8 @@
             <div class="modal-dialog">
                 <div class="modal-header">
                     <div>
-                        <h3 class="modal-title">Edit Setting</h3>
-                        <p class="modal-subtitle">Perbarui data Konfigurasi dengan benar.</p>
+                        <h3 class="modal-title">Edit Service</h3>
+                        <p class="modal-subtitle">Perbarui data Layanan dengan benar.</p>
                     </div>
 
                     <button type="button" id="modalCloseEdit" class="modal-close">
@@ -232,57 +210,39 @@
                     </button>
                 </div>
 
-                <form id="modalFormEdit" class="modal-form" action="{{ route('settings.update') }}" method="POST">
+                <form id="modalFormEdit" class="modal-form" action="{{ route('services.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" id="idEdit" name="id">
 
                     <div class="modal-body">
                         <div class="form-group">
-                            <label class="form-label">Label</label>
-                            <input id="labelEdit" name="label" type="text" class="form-input" required>
+                            <label>Nama</label>
+                            <input id="nameEdit" name="name" class="form-input">
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Key</label>
-                            <input id="keyEdit" name="key" type="text" class="form-input" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Type</label>
-                            <select id="typeEdit" name="type" class="form-select">
-                                <option value="text">Text</option>
-                                <option value="textarea">Textarea</option>
-                                <option value="number">Number</option>
-                                <option value="boolean">Boolean</option>
-                                <option value="url">URL</option>
-                                <option value="email">Email</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Value</label>
-                            <div id="valueEditWrapper"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Group</label>
-                            <input id="groupEdit" name="group_name" type="text" class="form-input">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Deskripsi</label>
+                            <label>Deskripsi</label>
                             <textarea id="descriptionEdit" name="description" class="form-input"></textarea>
                         </div>
 
-                        @if($isSuperadmin)
-                            <div class="form-group">
-                                <label class="form-label">Core Setting</label>
-                                <select id="isCoreEdit" name="is_core" class="form-select">
-                                    <option value="0">Tidak</option>
-                                    <option value="1">Ya</option>
-                                </select>
-                            </div>
-                        @endif
+                        <div class="form-group">
+                            <label>Icon</label>
+                            <input id="iconEdit" name="icon" class="form-input">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Gambar</label><br>
+                            <img id="imagePreviewEdit" style="width:60px;margin-bottom:10px;">
+                            <input type="file" name="image" class="form-input">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id="statusEdit" name="is_active" class="form-select">
+                                <option value="1">Aktif</option>
+                                <option value="0">Nonaktif</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="modal-footer">
@@ -306,7 +266,7 @@
                 
                 <div class="modal-header">
                     <div>
-                        <h3 class="modal-title" style="color:#dc2626;">Hapus Setting</h3>
+                        <h3 class="modal-title" style="color:#dc2626;">Hapus Service</h3>
                         <p class="modal-subtitle">Tindakan ini tidak dapat dibatalkan.</p>
                     </div>
 
@@ -315,7 +275,7 @@
                     </button>
                 </div>
 
-                <form id="modalFormDelete" class="modal-form" method="POST" action="{{ route('settings.delete') }}">
+                <form id="modalFormDelete" class="modal-form" method="POST" action="{{ route('services.delete') }}">
                     @csrf
                     <input type="hidden" name="id" id="idDelete">
 
@@ -337,10 +297,10 @@
                             </div>
                             <div>
                                 <p style="font-weight:600; color:var(--text-dark); margin-bottom:4px;">
-                                    Yakin ingin menghapus setting ini?
+                                    Yakin ingin menghapus layanan ini?
                                 </p>
                                 <p style="font-size:.9rem; color:var(--text-muted); line-height:1.5;">
-                                    Data Konfigurasi 
+                                    Data Layanan 
                                     <span id="deleteUserName" style="font-weight:600;"></span> 
                                     akan dihapus permanen dan tidak bisa dikembalikan.
                                 </p>
@@ -383,18 +343,17 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '{{ route('settings.index') }}',
+                    url: '{{ route('services.index') }}',
                     data: function(d) {
                         d.search = d.search.value;
                     }
                 },
                 columns: [
                     { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                    { data: 'label', name: 'label' },
-                    { data: 'key', name: 'key' },
-                    { data: 'value', name: 'value' },
-                    { data: 'type', name: 'type' },
-                    { data: 'group_name', name: 'group_name' },
+                    { data: 'name', name: 'name' },
+                    { data: 'description', name: 'description' },
+                    { data: 'icon', name: 'icon', orderable: false, searchable: false },
+                    { data: 'status', name: 'status', orderable: false, searchable: false },
                     { data: 'action', name: 'action', orderable: false, searchable: false }
                 ],
                 order: [],
@@ -427,6 +386,7 @@
                 e.preventDefault();
 
                 let form = $(this);
+                let data = new FormData(this);
                 let btn = $('#formSubmitAdd');
 
                 btn.prop('disabled', true);
@@ -436,7 +396,7 @@
                 $.ajax({
                     url: form.attr('action'),
                     method: 'POST',
-                    data: form.serialize(),
+                    data: data,
                     success: function(res) {
                         closeModal('#modalAdd');
                         form[0].reset();
@@ -461,13 +421,11 @@
 
             $(document).on('click', '.edit-btn', function () {
                 $('#idEdit').val($(this).data('id'));
-                $('#labelEdit').val($(this).data('label'));
-                $('#keyEdit').val($(this).data('key'));
-                $('#typeEdit').val($(this).data('type'));
-                $('#groupEdit').val($(this).data('group'));
+                $('#nameEdit').val($(this).data('name'));
                 $('#descriptionEdit').val($(this).data('description'));
-                $('#isCoreEdit').val($(this).data('is_core'))
-                renderValueInputEdit($(this).data('type'), $(this).data('value'));
+                $('#iconEdit').val($(this).data('icon'));
+                $('#statusEdit').val($(this).data('status'));
+                $('#imagePreviewEdit').attr('src', $(this).data('image'));
 
                 openModal('#modalEdit');
             });
@@ -560,31 +518,5 @@
             $('body').css('overflow', '');
         }
 
-        function renderValueInputEdit(type, value = '') {
-            let input = '';
-
-            switch(type) {
-                case 'textarea':
-                    input = `<textarea id="valueEdit" name="value" class="form-input">${value ?? ''}</textarea>`;
-                    break;
-
-                case 'boolean':
-                    input = `
-                        <select id="valueEdit" name="value" class="form-select">
-                            <option value="1" ${value == 1 ? 'selected' : ''}>True</option>
-                            <option value="0" ${value == 0 ? 'selected' : ''}>False</option>
-                        </select>`;
-                    break;
-
-                case 'number':
-                    input = `<input id="valueEdit" type="number" name="value" class="form-input" value="${value ?? ''}">`;
-                    break;
-
-                default:
-                    input = `<input id="valueEdit" type="text" name="value" class="form-input" value="${value ?? ''}">`;
-            }
-
-            $('#valueEditWrapper').html(input);
-        }
     </script>
 @endpush

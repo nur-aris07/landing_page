@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TestimoniController;
 use App\Http\Controllers\UsersController;
@@ -20,6 +21,11 @@ Route::middleware(['guest'])->group(function() {
 Route::middleware(['auth'])->group(function() {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    Route::get('/services', [ServicesController::class, 'index'])->name('services.index');
+    Route::post('/services/add', [ServicesController::class, 'store'])->name('services.add');
+    Route::post('/services/update', [ServicesController::class, 'update'])->name('services.update');
+    Route::post('/services/delete', [ServicesController::class, 'destroy'])->name('services.delete');
+    
     Route::get('/testimoni', [TestimoniController::class, 'index'])->name('testimoni.index');
     Route::post('/testimoni/add', [TestimoniController::class, 'store'])->name('testimoni.add');
     Route::post('/testimoni/update', [TestimoniController::class, 'update'])->name('testimoni.update');

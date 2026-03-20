@@ -3,12 +3,12 @@
         type="button"
         class="qa-btn edit-btn"
         title="Edit"
-        data-id="{{ $setting->id }}"
+        data-id="{{ $setting->hash_id }}"
         data-label="{{ $setting->label }}"
         data-key="{{ $setting->key }}"
         data-value="{{ e($setting->value) }}"
         data-type="{{ $setting->type }}"
-        data-group_name="{{ $setting->group_name }}"
+        data-group="{{ $setting->group_name }}"
         data-description="{{ e($setting->description) }}"
         data-is_core="{{ $setting->is_core }}"
     >
@@ -20,7 +20,7 @@
             type="button"
             class="qa-btn delete-btn"
             title="Hapus"
-            data-id="{{ $setting->id }}"
+            data-id="{{ $setting->hash_id }}"
             data-label="{{ $setting->label }}"
         >
             <i class="ti ti-trash"></i>

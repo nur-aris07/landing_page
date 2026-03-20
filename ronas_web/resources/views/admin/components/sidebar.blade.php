@@ -19,7 +19,7 @@
 
         <!-- GROUP: PRODUK -->
         <div class="nav-group-label">PRODUK</div>
-        <a href="#" class="nav-item" data-page="semua-produk">
+        <a href="/services" class="nav-item {{ request()->is('services*') ? 'active' : '' }}" data-page="semua-produk">
             <i class="ti ti-box nav-icon"></i>
             <span class="nav-label">Master Produk</span>
             <span class="tooltip">Master Produk</span>

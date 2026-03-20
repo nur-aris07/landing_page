@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Validator;
+use Throwable;
 use Yajra\DataTables\Facades\DataTables;
+
+use function Symfony\Component\Clock\now;
 
 class SettingsController extends Controller
 {
@@ -71,9 +76,131 @@ class SettingsController extends Controller
         return view('admin.settings.index');
     }
 
-    public function store(Request $request) {}
+    public function store(Request $request) {
+        $rules = [
+            'label' => 'required|string|max:150',
+            'key' => 'required|string',
+            'type' => 'required|string|in:text,textarea,number,boolean,json,image,url,email',
+            'value' => 'nullable',
+            'group_name' => 'nullable|string',
+            'description' => 'nullable|string',
+        ];
 
-    public function update(Request $request) {}
+        $isSuperadmin = (Auth::user()->role === 'superadmin');
+        if ($isSuperadmin) {
+            $rules['is_core'] = 'required|in:0,1';
+        }
 
-    public function destroy(Request $request) {}
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status'  => 'error',
+                'errors'  => $validator->errors(),
+                'message' => 'Validasi gagal, silakan cek kembali input.',
+            ], 422);
+        }
+
+        $isCore = 0;
+        if ($isSuperadmin) {
+            $isCore = $request->is_core;
+        }
+
+        return $this->handleDatabase(function() use ($isCore, $request) {
+            Setting::create([
+                'label'       => $request->label,
+                'key'         => $request->key,
+                'type'        => $request->type,
+                'value'       => $request->value,
+                'group_name'  => $request->group_name,
+                'description' => $request->description,
+                'is_core'     => $isCore,
+                'created_at'  => now(),
+                'updated_at'  => now(),
+            ]);
+        }, 'Berhasil menambahkan Data Konfigurasi baru.', true);
+    }
+
+    public function update(Request $request) {
+        $rules = [
+            'id' => 'required|string',
+            'label' => 'required|string|max:150',
+            'key' => 'required|string',
+            'type' => 'required|string|in:text,textarea,number,boolean,json,image,url,email',
+            'value' => 'nullable',
+            'group_name' => 'nullable|string',
+            'description' => 'nullable|string',
+        ];
+
+        $isSuperadmin = (Auth::user()->role === 'superadmin');
+        if ($isSuperadmin) {
+            $rules['is_core'] = 'required|in:0,1';
+        }
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                'status'  => 'error',
+                'errors'  => $validator->errors(),
+                'message' => 'Validasi gagal, silakan cek kembali input.',
+            ], 422);
+        }
+
+        $setting = Setting::where('id', Crypt::decryptString($request->id))->first();
+        if (!$setting) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Data Konfigurasi tidak ditemukan.',
+            ], 404);
+        }
+
+        $isCore = 0;
+        if ($isSuperadmin) {
+            $isCore = $request->is_core;
+        }
+        
+        return $this->handleDatabase(function() use ($isCore, $setting, $request) {
+            $setting->update([
+                'label'       => $request->label,
+                'key'         => $request->key,
+                'type'        => $request->type,
+                'value'       => $request->value,
+                'group_name'  => $request->group_name,
+                'description' => $request->description,
+                'is_core'     => $isCore,
+                'updated_at'  => now(),
+            ]);
+        }, 'Berhasil Memperbarui Data Konfigurasi.', true);
+    }
+
+    public function destroy(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'id' => 'required|string',
+        ]);
+        if ($validator->fails()) {
+            return response()->json([
+                'status'  => 'error',
+                'errors'  => $validator->errors(),
+                'message' => 'Validasi gagal, silakan cek kembali input.',
+            ], 422);
+        }
+
+        try {
+            $setting = Setting::where('id', Crypt::decryptString($request->id))->first();
+            if (!$setting) {
+                return response()->json([
+                    'status'  => 'error',
+                    'message' => 'Data Konfigurasi tidak ditemukan.',
+                ], 404);
+            }
+            $setting->delete();
+            return response()->json([
+                'status'  => 'success',
+                'message' => 'Berhasil menghapus Data Konfigurasi.',
+            ]);
+        } catch(Throwable $e) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Gagal menghapus Data Konfigurasi, silahkan coba lagi.',
+            ], 500);
+        }
+    }
 }

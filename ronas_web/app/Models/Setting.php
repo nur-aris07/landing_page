@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
 
 class Setting extends Model
 {
@@ -20,4 +21,7 @@ class Setting extends Model
         'is_core',
     ];
 
+    public function getHashIdAttribute(): string {
+        return Crypt::encryptString($this->id);
+    }
 }

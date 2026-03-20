@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
 
 class Testimonial extends Model
 {
@@ -19,6 +20,10 @@ class Testimonial extends Model
         'image',
         'is_active',
     ];
+
+    public function getHashIdAttribute(): string {
+        return Crypt::encryptString($this->id);
+    }
 
     public function getImageUrlAttribute() {
         if (!$this->image) {
