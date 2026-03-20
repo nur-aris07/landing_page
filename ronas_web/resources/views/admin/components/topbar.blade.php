@@ -3,7 +3,7 @@
         <button class="topbar-hamburger" id="hamburgerBtn" aria-expanded="false" aria-label="Buka menu">
             <i class="ti ti-menu-2"></i>
         </button>
-        <span class="topbar-breadcrumb">@yield('breadcrumb', 'Dashboard')</span>
+        <span class="topbar-breadcrumb">@yield('title', 'Dashboard')</span>
     </div>
     <div class="topbar-right">
         <div class="topbar-avatar-wrap">

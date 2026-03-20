@@ -4,11 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Admin Panel – Dashboard pengelolaan produk dan layanan [COMPANY]." />
-  <title>Admin Dashboard – [COMPANY]</title>
+  <title>@yield('title') – Putra Ronas Website</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
   <style>
     /* ===== CSS VARIABLES ===== */
@@ -533,6 +534,124 @@
     }
     .fade-in-up.visible { opacity: 1; transform: translateY(0); }
 
+    .custom-modal {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+        opacity: 0;
+        visibility: hidden;
+        transition: .25s ease;
+        z-index: 9999;
+    }
+
+    .custom-modal.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .custom-modal-dialog {
+        width: 100%;
+        max-width: 760px;
+        background: #fff;
+        border-radius: 18px;
+        border: 1px solid var(--border);
+        box-shadow: 0 24px 60px rgba(15, 23, 42, .18);
+        overflow: hidden;
+        transform: translateY(16px) scale(.98);
+        transition: .25s ease;
+    }
+
+    .custom-modal.active .custom-modal-dialog {
+        transform: translateY(0) scale(1);
+    }
+
+    .custom-modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 20px 24px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .custom-modal-title {
+        margin: 0;
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+    .custom-modal-subtitle {
+        margin: 6px 0 0;
+        color: var(--text-muted);
+        font-size: .92rem;
+    }
+
+    .custom-modal-body {
+        padding: 24px;
+    }
+
+    .custom-modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        padding: 18px 24px 24px;
+        border-top: 1px solid var(--border);
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .form-group label {
+        font-size: .9rem;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+
+    .form-control {
+        width: 100%;
+        height: 44px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 0 14px;
+        font-size: .92rem;
+        color: var(--text-dark);
+        background: #fff;
+        outline: none;
+    }
+
+    .form-control:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(232, 184, 75, .18);
+    }
+
+    .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.45);
+        opacity: 0;
+        visibility: hidden;
+        transition: .25s ease;
+        z-index: 9998;
+    }
+
+    .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
     /* ===== RESPONSIVE ===== */
 
     /* Tablet: 768–1023 */
@@ -589,7 +708,190 @@
     @media (min-width: 768px) and (max-width: 1023px) {
       /* auto-collapsed handled via JS */
     }
+
+    /* Modal */
+    .modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 9998;
+    }
+
+    .modal.show {
+        display: block;
+    }
+
+    .modal-backdrop {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+    }
+
+    .modal-container {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+    }
+
+    .modal-dialog {
+        width: 100%;
+        max-width: 640px;
+        background: #ffffff;
+        border: 1px solid var(--border, #e5e7eb);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+    }
+
+    .modal-header {
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border, #e5e7eb);
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+    }
+
+    .modal-title {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-dark, #111827);
+    }
+
+    .modal-subtitle {
+        margin: 4px 0 0;
+        font-size: .9rem;
+        color: var(--text-muted, #6b7280);
+    }
+
+    .modal-close {
+        width: 38px;
+        height: 38px;
+        border: 1px solid var(--border, #e5e7eb);
+        border-radius: 10px;
+        background: #fff;
+        color: var(--text-muted, #6b7280);
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: .2s ease;
+    }
+
+    .modal-close:hover {
+        background: #f9fafb;
+        color: var(--text-dark, #111827);
+    }
+
+    .modal-form {
+        padding: 0 20px 16px;
+    }
+
+    .modal-body {
+        max-height: 60vh;
+        overflow-y: auto;
+        padding: 16px 0;
+    }
+
+    .modal-footer {
+        padding-top: 12px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 14px;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 6px;
+        font-size: .92rem;
+        font-weight: 600;
+        color: var(--text-dark, #111827);
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+        width: 100%;
+        border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px;
+        background: #fff;
+        padding: 11px 14px;
+        font-size: .92rem;
+        color: var(--text-dark, #111827);
+        outline: none;
+        transition: .2s ease;
+        box-sizing: border-box;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+        border-color: var(--accent, #d4a63c);
+        box-shadow: 0 0 0 3px rgba(212, 166, 60, 0.15);
+    }
+
+    .form-note {
+        margin-top: 6px;
+        font-size: .78rem;
+        color: var(--text-muted, #6b7280);
+    }
+
+    .btn-secondary {
+        padding: 10px 16px;
+        border: 1px solid var(--border, #e5e7eb);
+        border-radius: 12px;
+        background: #fff;
+        color: var(--text-dark, #111827);
+        cursor: pointer;
+        transition: .2s ease;
+    }
+
+    .btn-secondary:hover {
+        background: #f9fafb;
+    }
+
+    .btn-primary-dark {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 12px;
+        background: #111827;
+        color: #fff;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: .2s ease;
+    }
+
+    .btn-primary-dark:hover {
+        background: #1f2937;
+    }
+
+    .is-hidden {
+        display: none !important;
+    }
+
+    @media (max-width: 768px) {
+        .modal-dialog {
+            max-width: 100%;
+        }
+
+        .modal-header,
+        .modal-form {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+    }
   </style>
+  @stack('styles')
 </head>
 
 <body>
@@ -658,18 +960,20 @@
       });
 
       // Active state
-      var navItems = document.querySelectorAll('.nav-item[data-page], .subnav-item');
-      navItems.forEach(function(item) {
-        item.addEventListener('click', function(e) {
-          e.preventDefault();
-          document.querySelectorAll('.nav-item.active').forEach(function(a) { a.classList.remove('active'); });
-          if (item.classList.contains('subnav-item')) {
-            // no active for sub-items visual
-          } else {
-            item.classList.add('active');
-          }
-        });
-      });
+      // var navItems = document.querySelectorAll('.nav-item[data-page], .subnav-item');
+      // navItems.forEach(function(item) {
+      //   item.addEventListener('click', function(e) {
+      //     e.preventDefault();
+      //     document.querySelectorAll('.nav-item.active').forEach(function(a) { a.classList.remove('active'); });
+      //     if (item.classList.contains('subnav-item')) {
+      //       // no active for sub-items visual
+      //     } else {
+      //       console.log('ok');
+            
+      //       item.classList.add('active');
+      //     }
+      //   });
+      // });
 
       // Auto-collapse on tablet
       if (window.innerWidth >= 768 && window.innerWidth < 1024) {
@@ -873,5 +1177,6 @@
       initCharts();
     });
   </script>
+  @stack('scripts')
 </body>
 </html>

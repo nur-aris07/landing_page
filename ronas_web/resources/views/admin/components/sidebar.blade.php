@@ -11,7 +11,7 @@
 
     <nav class="sidebar-nav">
         <!-- GROUP: (no label) -->
-        <a href="#" class="nav-item active" data-page="dashboard">
+        <a href="/dashboard" class="nav-item {{ request()->is('dashboard*') ? 'active' : '' }}" data-page="dashboard">
             <i class="ti ti-home nav-icon"></i>
             <span class="nav-label">Dashboard</span>
             <span class="tooltip">Dashboard</span>
@@ -39,11 +39,6 @@
 
         <!-- GROUP: KONTEN -->
         <div class="nav-group-label">KONTEN</div>
-        <a href="#" class="nav-item" data-page="profil">
-            <i class="ti ti-building-store nav-icon"></i>
-            <span class="nav-label">Profil Perusahaan</span>
-            <span class="tooltip">Profil Perusahaan</span>
-        </a>
         <a href="#" class="nav-item" data-page="testimoni">
             <i class="ti ti-message-circle-2 nav-icon"></i>
             <span class="nav-label">Testimoni</span>
@@ -52,7 +47,7 @@
 
         <!-- GROUP: PENGATURAN -->
         <div class="nav-group-label">SISTEM</div>
-        <a href="#" class="nav-item" data-page="admin-users">
+        <a href="/users" class="nav-item {{ request()->is('users*') ? 'active' : '' }}" data-page="admin-users">
             <i class="ti ti-user-cog nav-icon"></i>
             <span class="nav-label">Users</span>
             <span class="tooltip">Users</span>

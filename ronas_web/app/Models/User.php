@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Crypt;
 
 class User extends Authenticatable
 {
@@ -23,5 +24,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
     ];
+
+    public function getHashIdAttribute(): string {
+        return Crypt::encryptString($this->id);
+    }
 
 }
