@@ -170,15 +170,7 @@
                         <div class="form-group">
                             <label>Gambar</label>
                             <input type="file" name="image" class="form-input">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Status</label>
-                            <select name="is_active" class="form-select">
-                                <option value="1">Aktif</option>
-                                <option value="0">Nonaktif</option>
-                            </select>
-                        </div>
+                        </div>                      
                     </div>
 
                     <div class="modal-footer">
@@ -238,7 +230,7 @@
 
                         <div class="form-group">
                             <label>Status</label>
-                            <select id="statusEdit" name="is_active" class="form-select">
+                            <select id="statusEdit" name="status" class="form-select">
                                 <option value="1">Aktif</option>
                                 <option value="0">Nonaktif</option>
                             </select>
@@ -397,6 +389,8 @@
                     url: form.attr('action'),
                     method: 'POST',
                     data: data,
+                    processData: false,
+                    contentType: false,
                     success: function(res) {
                         closeModal('#modalAdd');
                         form[0].reset();
@@ -436,6 +430,7 @@
                 e.preventDefault();
 
                 let form = $(this);
+                let data = new FormData(this);
                 let btn = $('#formSubmitEdit');
 
                 btn.prop('disabled', true);
@@ -445,7 +440,9 @@
                 $.ajax({
                     url: form.attr('action'),
                     method: 'POST',
-                    data: form.serialize(),
+                    data: data,
+                    processData: false,
+                    contentType: false,
                     success: function(res) {
                         closeModal('#modalEdit');
                         table.ajax.reload(null, false);

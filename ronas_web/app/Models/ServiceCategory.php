@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
 
 class ServiceCategory extends Model
 {
@@ -24,6 +25,10 @@ class ServiceCategory extends Model
         }
 
         return asset('storage/' . $this->image);
+    }
+
+    public function getHashIdAttribute(): string {
+        return Crypt::encryptString($this->id);
     }
 
 }
