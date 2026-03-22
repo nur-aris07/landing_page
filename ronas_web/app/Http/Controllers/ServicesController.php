@@ -59,7 +59,7 @@ class ServicesController extends Controller
         $validator = Validator::make($request->all(), [
             'name'        => 'required|string|max:100',
             'description' => 'required|string',
-            'image'       => 'nullable',
+            'image'       => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
             'icon'        => 'nullable|string|max:100',
         ]);
         if ($validator->fails()) {
@@ -70,13 +70,26 @@ class ServicesController extends Controller
             ], 422);
         }
 
-        return $this->handleDatabase(function() use ($request) {
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+
+            $destination = public_path('uploads/services');
+            if (!file_exists($destination)) {
+                mkdir($destination, 0755, true);
+            }
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move($destination, $filename);
+            $imagePath = 'uploads/services/' . $filename;
+        }
+
+        return $this->handleDatabase(function() use ($imagePath, $request) {
             ServiceCategory::create([
                 'name'        => $request->name,
                 'description' => $request->description,
-                'image'       => null,
-                'icon'        => null,
-                'is-active'   => 1,
+                'image'       => $imagePath,
+                'icon'        => $request->icon,
+                'is_active'   => 1,
                 'created_at'  => now(),
                 'updated_at'  => now(),
             ]);
@@ -89,8 +102,8 @@ class ServicesController extends Controller
             'name'        => 'required|string|max:100',
             'description' => 'required|string',
             'icon'        => 'nullable|string|max:100',
-            'image'       => 'nullable',
-            'status'      => 'requireD|in:0,1'
+            'image'       => 'nullable|image|mimes:jpeg,jpg,png|max:2048',
+            'status'      => 'required|in:0,1'
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -108,11 +121,31 @@ class ServicesController extends Controller
             ], 404);
         }
 
-        return $this->handleDatabase(function() use ($service, $request) {
+        $imagePath = $service->image;
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $destination = public_path('uploads/services');
+
+            if (!file_exists($destination)) {
+                mkdir($destination, 0755, true);
+            }
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $file->move($destination, $filename);
+            $newImagePath = 'uploads/services/' . $filename;
+
+            // 🧹 hapus gambar lama kalau ada
+            if ($service->image && file_exists(public_path($service->image))) {
+                unlink(public_path($service->image));
+            }
+
+            $imagePath = $newImagePath;
+        }
+
+        return $this->handleDatabase(function() use ($imagePath, $service, $request) {
             $service->update([
                 'name'        => $request->name,
                 'description' => $request->description,
-                'image'       => null,
+                'image'       => $imagePath,
                 'icon'        => $request->icon,
                 'is_active'   => $request->status,
                 'updated_at'  => now(),
@@ -140,6 +173,11 @@ class ServicesController extends Controller
                     'message' => 'Data Layanan tidak ditemukan.',
                 ], 404);
             }
+
+            if ($service->image && file_exists(public_path($service->image))) {
+                unlink(public_path($service->image));
+            }
+            
             $service->delete();
             return response()->json([
                 'status'  => 'success',

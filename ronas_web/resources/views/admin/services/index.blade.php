@@ -164,12 +164,59 @@
 
                         <div class="form-group">
                             <label>Icon (class)</label>
-                            <input name="icon" class="form-input" placeholder="ti ti-home">
+                            <input name="icon" id="iconAdd" class="form-input" placeholder="ti ti-home">
+                            <div id="iconPreviewWrapperAdd" style="margin-top:8px; display:none;">
+                                Preview:
+                                <i id="iconPreviewAdd" style="font-size:20px;"></i>
+                            </div>
+                            <small id="iconErrorAdd" style="display:none; color:#ef4444; font-size:12px;">
+                                Icon tidak ditemukan. Pastikan class sesuai dari Tabler Icons.
+                            </small>
+                            <small style="display:block; margin-top:6px; color:#64748b; font-size:12px;">
+                                Gunakan class icon dari Tabler Icons. <br>
+                                Contoh: <code>ti ti-home</code>, <code>ti ti-user</code>, <code>ti ti-settings</code>.
+                                <br>
+                                Lihat daftar icon di:
+                                <a href="https://tabler-icons.io/" target="_blank" style="color:#2563eb;">
+                                    tabler-icons.io
+                                </a>
+                                lalu copy class yang tersedia.
+                            </small>
                         </div>
 
                         <div class="form-group">
-                            <label>Gambar</label>
-                            <input type="file" name="image" class="form-input">
+                            <label class="form-label">Gambar</label>
+
+                            <div class="image-upload" id="imageUploadAdd">
+                                <input type="file" name="image" id="imageInputAdd" class="image-upload__input" accept="image/*">
+
+                                <label for="imageInputAdd" class="image-upload__label">
+                                    <div class="image-upload__icon">
+                                        <i class="ti ti-photo-plus"></i>
+                                    </div>
+
+                                    <div class="image-upload__content">
+                                        <div class="image-upload__title">Pilih gambar</div>
+                                        <div class="image-upload__subtitle">
+                                            Klik untuk upload atau drag & drop ringan
+                                        </div>
+                                        <div class="image-upload__meta" id="imageFileNameAdd">
+                                            Belum ada file dipilih
+                                        </div>
+                                    </div>
+
+                                    <span class="image-upload__button">Browse</span>
+                                </label>
+
+                                <div class="image-upload__preview" id="imagePreviewBoxAdd" style="display:none;">
+                                    <img id="imagePreviewAdd" alt="Preview gambar">
+                                    <button type="button" class="image-upload__remove" id="removeImageAdd">
+                                        <i class="ti ti-x"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <small class="form-note">Format jpg, png, webp. Disarankan rasio gambar konsisten.</small>
                         </div>                      
                     </div>
 
@@ -216,16 +263,60 @@
                             <label>Deskripsi</label>
                             <textarea id="descriptionEdit" name="description" class="form-input"></textarea>
                         </div>
-
+                        
                         <div class="form-group">
-                            <label>Icon</label>
-                            <input id="iconEdit" name="icon" class="form-input">
+                            <label>Icon (class)</label>
+                            <input name="icon" id="iconEdit" class="form-input" placeholder="ti ti-home">
+                            <div id="iconPreviewWrapperEdit" style="margin-top:8px; display:none;">
+                                Preview:
+                                <i id="iconPreviewEdit" style="font-size:20px;"></i>
+                            </div>
+                            <small id="iconErrorEdit" style="display:none; color:#ef4444; font-size:12px;">
+                                Icon tidak ditemukan. Pastikan class sesuai dari Tabler Icons.
+                            </small>
+                            <small style="display:block; margin-top:6px; color:#64748b; font-size:12px;">
+                                Gunakan class icon dari Tabler Icons. <br>
+                                Contoh: <code>ti ti-home</code>, <code>ti ti-user</code>, <code>ti ti-settings</code>.
+                                <br>
+                                Lihat daftar icon di:
+                                <a href="https://tabler-icons.io/" target="_blank" style="color:#2563eb;">
+                                    tabler-icons.io
+                                </a>
+                                lalu copy class yang tersedia.
+                            </small>
                         </div>
 
                         <div class="form-group">
-                            <label>Gambar</label><br>
-                            <img id="imagePreviewEdit" style="width:60px;margin-bottom:10px;">
-                            <input type="file" name="image" class="form-input">
+                            <label class="form-label">Gambar</label>
+
+                            <div class="image-upload" id="imageUploadEdit">
+                                <input type="file" name="image" id="imageInputEdit" class="image-upload__input" accept="image/*">
+
+                                <label for="imageInputEdit" class="image-upload__label">
+                                    <div class="image-upload__icon">
+                                        <i class="ti ti-photo-edit"></i>
+                                    </div>
+
+                                    <div class="image-upload__content">
+                                        <div class="image-upload__title">Ubah gambar</div>
+                                        <div class="image-upload__subtitle">
+                                            Upload gambar baru jika ingin mengganti gambar lama
+                                        </div>
+                                        <div class="image-upload__meta" id="imageFileNameEdit">
+                                            Gunakan file baru atau biarkan kosong
+                                        </div>
+                                    </div>
+
+                                    <span class="image-upload__button">Browse</span>
+                                </label>
+
+                                <div class="image-upload__preview" id="imagePreviewBoxEdit" style="display:none;">
+                                    <img id="imagePreviewEdit" alt="Preview gambar">
+                                    <button type="button" class="image-upload__remove" id="removeImageEdit">
+                                        <i class="ti ti-x"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -330,6 +421,51 @@
             "timeOut": "3000"
         };
 
+        function initImageUploader(inputId, fileNameId, previewBoxId, previewImgId, removeBtnId, wrapperId, defaultText = 'Belum ada file dipilih') {
+            const $input = $('#' + inputId);
+            const $fileName = $('#' + fileNameId);
+            const $previewBox = $('#' + previewBoxId);
+            const $previewImg = $('#' + previewImgId);
+            const $removeBtn = $('#' + removeBtnId);
+            const $wrapper = $('#' + wrapperId);
+
+            if (!$input.length) return;
+
+            $input.on('change', function () {
+                const file = this.files && this.files[0];
+
+                if (!file) {
+                    $fileName.text(defaultText);
+                    $previewBox.hide();
+                    $previewImg.attr('src', '');
+                    $wrapper.removeClass('is-active');
+                    return;
+                }
+
+                $fileName.text(file.name);
+                $wrapper.addClass('is-active');
+
+                if (file.type.indexOf('image/') === 0) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $previewImg.attr('src', e.target.result);
+                        $previewBox.show();
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            $removeBtn.on('click', function () {
+                $input.val('');
+                $fileName.text(defaultText);
+                $previewBox.hide();
+                $previewImg.attr('src', '');
+                $wrapper.removeClass('is-active');
+            });
+        }
+
         $(document).ready(function () {
             let table = $('#datatable').DataTable({
                 processing: true,
@@ -369,10 +505,45 @@
 
             $('#add-btn').on('click', function () {
                 $('#modalFormAdd')[0].reset();
+
+                $('#imageInputAdd').val('');
+                $('#imageFileNameAdd').text('Belum ada file dipilih');
+                $('#imagePreviewAdd').attr('src', '');
+                $('#imagePreviewBoxAdd').hide();
+                $('#imageUploadAdd').removeClass('is-active');
+
                 openModal('#modalAdd');
             });            
             $('#modalCloseAdd, #modalCancelAdd, #modalBackdropAdd').on('click', function () {
                 closeModal('#modalAdd');
+            });
+            $('#iconAdd').on('input', function () {
+                let val = $(this).val().trim();
+
+                if (val === '') {
+                    $('#iconPreviewWrapperAdd').hide();
+                    $('#iconPreviewAdd').attr('class', '');
+                    $('#iconErrorAdd').hide();
+                    return;
+                }
+
+                $('#iconPreviewWrapperAdd').show();
+                $('#iconPreviewAdd').attr('class', val);
+
+                // cek apakah icon benar-benar tampil
+                setTimeout(() => {
+                    let el = $('#iconPreviewAdd')[0];
+                    let width = el.offsetWidth;
+                    let height = el.offsetHeight;
+
+                    if (width === 0 || height === 0) {
+                        // icon tidak valid
+                        $('#iconPreviewAdd').attr('class', 'ti ti-alert-circle');
+                        $('#iconErrorAdd').show();
+                    } else {
+                        $('#iconErrorAdd').hide();
+                    }
+                }, 50);
             });
             $('#modalFormAdd').on('submit', function(e) {
                 e.preventDefault();
@@ -394,6 +565,11 @@
                     success: function(res) {
                         closeModal('#modalAdd');
                         form[0].reset();
+                        $('#imageInputAdd').val('');
+                        $('#imageFileNameAdd').text('Belum ada file dipilih');
+                        $('#imagePreviewAdd').attr('src', '');
+                        $('#imagePreviewBoxAdd').hide();
+                        $('#imageUploadAdd').removeClass('is-active');
                         table.ajax.reload(null, false);
                         toastr.success(res.message);
                     },
@@ -419,12 +595,52 @@
                 $('#descriptionEdit').val($(this).data('description'));
                 $('#iconEdit').val($(this).data('icon'));
                 $('#statusEdit').val($(this).data('status'));
-                $('#imagePreviewEdit').attr('src', $(this).data('image'));
+                $('#imageInputEdit').val('');
+                const image = $(this).data('image');
+                if (image) {
+                    $('#imagePreviewEdit').attr('src', image);
+                    $('#imagePreviewBoxEdit').show();
+                    $('#imageFileNameEdit').text('Gambar saat ini');
+                    $('#imageUploadEdit').addClass('is-active');
+                } else {
+                    $('#imagePreviewEdit').attr('src', '');
+                    $('#imagePreviewBoxEdit').hide();
+                    $('#imageFileNameEdit').text('Gunakan file baru atau biarkan kosong');
+                    $('#imageUploadEdit').removeClass('is-active');
+                }
 
                 openModal('#modalEdit');
             });
             $('#modalCloseEdit, #modalCancelEdit, #modalBackdropEdit').on('click', function () {
                 closeModal('#modalEdit');
+            });
+            $('#iconEdit').on('input', function () {
+                let val = $(this).val().trim();
+
+                if (val === '') {
+                    $('#iconPreviewWrapperEdit').hide();
+                    $('#iconPreviewEdit').attr('class', '');
+                    $('#iconErrorEdit').hide();
+                    return;
+                }
+
+                $('#iconPreviewWrapperEdit').show();
+                $('#iconPreviewEdit').attr('class', val);
+
+                // cek apakah icon benar-benar tampil
+                setTimeout(() => {
+                    let el = $('#iconPreviewEdit')[0];
+                    let width = el.offsetWidth;
+                    let height = el.offsetHeight;
+
+                    if (width === 0 || height === 0) {
+                        // icon tidak valid
+                        $('#iconPreviewEdit').attr('class', 'ti ti-alert-circle');
+                        $('#iconErrorEdit').show();
+                    } else {
+                        $('#iconErrorEdit').hide();
+                    }
+                }, 50);
             });
             $('#modalFormEdit').on('submit', function(e) {
                 e.preventDefault();
@@ -503,6 +719,25 @@
                     }
                 });
             });
+
+            initImageUploader(
+                'imageInputAdd',
+                'imageFileNameAdd',
+                'imagePreviewBoxAdd',
+                'imagePreviewAdd',
+                'removeImageAdd',
+                'imageUploadAdd'
+            );
+
+            initImageUploader(
+                'imageInputEdit',
+                'imageFileNameEdit',
+                'imagePreviewBoxEdit',
+                'imagePreviewEdit',
+                'removeImageEdit',
+                'imageUploadEdit',
+                'Gunakan file baru atau biarkan kosong'
+            );
         });
 
         function openModal(modalId) {

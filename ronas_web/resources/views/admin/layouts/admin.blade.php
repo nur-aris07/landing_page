@@ -898,6 +898,155 @@
         from { transform: rotate(0deg); }
         to { transform: rotate(360deg); }
     }
+    .image-upload {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .image-upload__input {
+        display: none;
+    }
+
+    .image-upload__label {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px;
+        border: 1px dashed var(--border);
+        border-radius: 14px;
+        background: linear-gradient(180deg, #fff 0%, #fcfcf8 100%);
+        cursor: pointer;
+        transition: .25s ease;
+        min-height: 86px;
+    }
+
+    .image-upload__label:hover {
+        border-color: var(--accent);
+        background: rgba(232, 184, 75, 0.06);
+    }
+
+    .image-upload.is-active .image-upload__label {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(232, 184, 75, 0.14);
+        background: rgba(232, 184, 75, 0.05);
+    }
+
+    .image-upload__icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: rgba(232, 184, 75, 0.12);
+        color: var(--accent-dark);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        flex-shrink: 0;
+    }
+
+    .image-upload__content {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .image-upload__title {
+        font-size: .95rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 2px;
+    }
+
+    .image-upload__subtitle {
+        font-size: .84rem;
+        color: var(--text-muted);
+        line-height: 1.45;
+    }
+
+    .image-upload__meta {
+        margin-top: 6px;
+        font-size: .8rem;
+        color: var(--accent-dark);
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .image-upload__button {
+        height: 40px;
+        padding: 0 14px;
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        background: #fff;
+        color: var(--text-dark);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: .88rem;
+        font-weight: 600;
+        flex-shrink: 0;
+        transition: .2s ease;
+    }
+
+    .image-upload__label:hover .image-upload__button {
+        border-color: var(--accent);
+        color: var(--accent-dark);
+    }
+
+    .image-upload__preview {
+        position: relative;
+        width: 100%;
+        max-width: 220px;
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        background: #fff;
+        box-shadow: var(--shadow-sm);
+    }
+
+    .image-upload__preview img {
+        display: block;
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+    }
+
+    .image-upload__remove {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: 10px;
+        background: rgba(17, 24, 39, 0.75);
+        color: #fff;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition: .2s ease;
+    }
+
+    .image-upload__remove:hover {
+        background: rgba(17, 24, 39, 0.9);
+    }
+
+    @media (max-width: 640px) {
+        .image-upload__label {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .image-upload__button {
+            width: 100%;
+        }
+
+        .image-upload__preview {
+            max-width: 100%;
+        }
+    }
   </style>
   @stack('styles')
 </head>
