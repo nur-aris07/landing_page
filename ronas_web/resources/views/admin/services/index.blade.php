@@ -481,7 +481,7 @@
                     { data: 'name', name: 'name' },
                     { data: 'description', name: 'description' },
                     { data: 'icon', name: 'icon', orderable: false, searchable: false },
-                    { data: 'status', name: 'status', orderable: false, searchable: false },
+                    { data: 'status', name: 'status', searchable: false },
                     { data: 'action', name: 'action', orderable: false, searchable: false }
                 ],
                 order: [],

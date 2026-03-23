@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Crypt;
 use Throwable;
 
 abstract class Controller
@@ -20,6 +21,12 @@ abstract class Controller
 
         } catch (QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
+                if ($isAjax) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Data sudah terdaftar (duplicate).'
+                    ], 422);
+                }
                 return back()->with('error', 'Data sudah terdaftar (duplicate).');
             }
             if ($isAjax) {
@@ -39,5 +46,21 @@ abstract class Controller
             }
             return back()->with('error', 'Terjadi kesalahan sistem.');
         }
+    }
+
+    protected function decryptId($encryptedId) {
+        try {
+            return Crypt::decryptString($encryptedId);
+        } catch(Throwable $e) {
+            return false;
+        }
+    }
+
+    protected function failResponse($message, $code=400, $errors=null) {
+        return response()->json([
+            'status'  => 'error',
+            'message' => $message,
+            'errors'  => $errors,
+        ], $code);
     }
 }

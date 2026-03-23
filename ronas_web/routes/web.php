@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ServicesController;
+use App\Http\Controllers\ServiceSpecController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TestimoniController;
 use App\Http\Controllers\UsersController;
@@ -25,6 +26,12 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/services/add', [ServicesController::class, 'store'])->name('services.add');
     Route::post('/services/update', [ServicesController::class, 'update'])->name('services.update');
     Route::post('/services/delete', [ServicesController::class, 'destroy'])->name('services.delete');
+    Route::get('/services/{service}/specs', [ServiceSpecController::class, 'index'])->name('services.specs');
+    Route::post('/services/specs/add', [ServiceSpecController::class, 'store'])->name('specs.add');
+    Route::post('/services/specs/update', [ServiceSpecController::class, 'update'])->name('specs.update');
+    Route::post('/services/specs/delete', [ServiceSpecController::class, 'destroy'])->name('specs.delete');
+    Route::get('/services/{service}/specs/order-items', [ServiceSpecController::class, 'getDataOrder'])->name('specs.order-items');
+    Route::post('/services/specs/reorder', [ServiceSpecController::class, 'reorder'])->name('specs.reorder');
     
     Route::get('/testimoni', [TestimoniController::class, 'index'])->name('testimoni.index');
     Route::post('/testimoni/add', [TestimoniController::class, 'store'])->name('testimoni.add');

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
 
 class Spec extends Model
 {
@@ -21,6 +22,10 @@ class Spec extends Model
 
     public function category() {
         return $this->belongsTo(ServiceCategory::class, 'service_category_id');
+    }
+
+    public function getHashIdAttribute(): string {
+        return Crypt::encryptString($this->id);
     }
 
 }

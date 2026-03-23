@@ -1,4 +1,11 @@
 <div style="display:flex; align-items:center; gap:8px;">
+    <a
+        href="{{ route('services.specs', $service->hash_id) }}"
+        class="qa-btn"
+        title="Detail Spec"
+    >
+        <i class="ti ti-list-details"></i>
+    </a>
     <button
         type="button"
         class="qa-btn edit-btn"
