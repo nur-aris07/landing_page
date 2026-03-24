@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\ServiceSpecController;
@@ -33,6 +34,11 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/services/{service}/specs/order-items', [ServiceSpecController::class, 'getDataOrder'])->name('specs.order-items');
     Route::post('/services/specs/reorder', [ServiceSpecController::class, 'reorder'])->name('specs.reorder');
     
+    Route::get('/catalogs', [CatalogController::class, 'index'])->name('catalogs.index');
+    Route::post('/catalogs/add', [CatalogController::class, 'store'])->name('catalogs.add');
+    Route::post('/catalogs/update', [CatalogController::class, 'update'])->name('catalogs.update');
+    Route::post('/catalogs/delete', [CatalogController::class, 'destroy'])->name('catalogs.delete');
+
     Route::get('/testimoni', [TestimoniController::class, 'index'])->name('testimoni.index');
     Route::post('/testimoni/add', [TestimoniController::class, 'store'])->name('testimoni.add');
     Route::post('/testimoni/update', [TestimoniController::class, 'update'])->name('testimoni.update');

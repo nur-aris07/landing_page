@@ -28,7 +28,13 @@ class ServiceCategory extends Model
     }
 
     public function getHashIdAttribute(): string {
-        return Crypt::encryptString($this->id);
+        static $cache = [];
+
+        if (!isset($cache[$this->id])) {
+            $cache[$this->id] = Crypt::encryptString($this->id);
+        }
+
+        return $cache[$this->id];
     }
 
 }

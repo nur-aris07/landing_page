@@ -24,18 +24,11 @@
             <span class="nav-label">Master Produk</span>
             <span class="tooltip">Master Produk</span>
         </a>
-        <button class="nav-item" id="katalogToggle" aria-expanded="false">
+        <a href="/catalogs" class="nav-item" {{ request()->is('catalogs*') ? 'active' : '' }} data-page="katalog">
             <i class="ti ti-layout-grid nav-icon"></i>
             <span class="nav-label">Katalog</span>
-            <i class="ti ti-chevron-right nav-arrow"></i>
             <span class="tooltip">Katalog</span>
-        </button>
-        <div class="subnav" id="katalogSubnav">
-            <a href="#" class="subnav-item"><span class="cat-dot" style="background:var(--cat-otomotif)"></span> Otomotif</a>
-            <a href="#" class="subnav-item"><span class="cat-dot" style="background:var(--cat-alat-berat)"></span> Alat Berat</a>
-            <a href="#" class="subnav-item"><span class="cat-dot" style="background:var(--cat-properti)"></span> Properti</a>
-            <a href="#" class="subnav-item"><span class="cat-dot" style="background:var(--cat-travel)"></span> Travel</a>
-        </div>
+        </a>
 
         <!-- GROUP: KONTEN -->
         <div class="nav-group-label">KONTEN</div>

@@ -839,6 +839,11 @@
         box-shadow: 0 0 0 3px rgba(212, 166, 60, 0.15);
     }
 
+    .required-field::after {
+        content: " *";
+        color: red;
+    }
+
     .form-note {
         margin-top: 6px;
         font-size: .78rem;
@@ -1108,14 +1113,14 @@
       overlay.addEventListener('click', closeMobileSidebar);
 
       // Katalog accordion
-      var katalogToggle = document.getElementById('katalogToggle');
-      var katalogSubnav = document.getElementById('katalogSubnav');
+      // var katalogToggle = document.getElementById('katalogToggle');
+      // var katalogSubnav = document.getElementById('katalogSubnav');
 
-      katalogToggle.addEventListener('click', function() {
-        var isOpen = katalogSubnav.classList.toggle('open');
-        katalogToggle.classList.toggle('open', isOpen);
-        katalogToggle.setAttribute('aria-expanded', isOpen);
-      });
+      // katalogToggle.addEventListener('click', function() {
+      //   var isOpen = katalogSubnav.classList.toggle('open');
+      //   katalogToggle.classList.toggle('open', isOpen);
+      //   katalogToggle.setAttribute('aria-expanded', isOpen);
+      // });
 
       // Active state
       // var navItems = document.querySelectorAll('.nav-item[data-page], .subnav-item');
