@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Crypt;
 
 class Catalog extends Model
 {
@@ -36,7 +37,7 @@ class Catalog extends Model
             return asset('images/default-catalog.png');
         }
 
-        return asset('storage/' . $this->image);
+        return asset( $this->image);
     }
 
     public function getFormattedPriceAttribute() {
@@ -53,6 +54,10 @@ class Catalog extends Model
         }
 
         return "Halo, saya tertarik dengan layanan *{$this->title}*";
+    }
+
+    public function getHashIdAttribute(): string {
+        return Crypt::encryptString($this->id);
     }
 
 }

@@ -14,7 +14,7 @@
         data-id="{{ $catalog->hash_id }}"
         data-title="{{ $catalog->title }}"
         data-description="{{ e($catalog->description) }}"
-        data-service="{{ optional($catalog->category)->hash_id ?? '' }}"
+        data-service="{{ optional($catalog->category)->id ?? '' }}"
         data-price="{{ $catalog->price }}"
         data-price_label="{{ $catalog->price_label }}"
         data-location="{{ $catalog->location }}"
@@ -28,7 +28,7 @@
         type="button"
         class="qa-btn danger delete-btn"
         title="Hapus"
-        data-id="{{ $catalog->id }}"
+        data-id="{{ $catalog->hash_id }}"
         data-name="{{ $catalog->title }}"
     >
         <i class="ti ti-trash"></i>

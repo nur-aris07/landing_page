@@ -183,7 +183,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label class="form-label required-field">Service</label>
-                            <select name="service_category_id" class="form-select" required>
+                            <select name="service" class="form-select" required>
                                 <option value="">Pilih Service</option>
                                 @foreach($services as $service)
                                     <option value="{{ $service->hash_id }}">
@@ -255,7 +255,7 @@
 
                         <div class="form-group">
                             <label class="form-label">Whatsapp Message</label>
-                            <textarea name="whatsapp_message" class="form-input" placeholder="Pesan default whatsapp"></textarea>
+                            <textarea name="message" class="form-input" placeholder="Pesan default whatsapp"></textarea>
                         </div>
                     </div>
 
@@ -295,10 +295,10 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label class="form-label required-field">Service</label>
-                            <select id="serviceEdit" name="service_category_id" class="form-select" required>
+                            <select id="serviceEdit" name="service" class="form-select" required>
                                 <option value="">Pilih Service</option>
                                 @foreach($services as $service)
-                                    <option value="{{ $service->hash_id }}">
+                                    <option value="{{ $service->id }}">
                                         {{ $service->name }}
                                     </option>
                                 @endforeach
@@ -365,7 +365,7 @@
 
                         <div class="form-group">
                             <label class="form-label">Whatsapp Message</label>
-                            <textarea id="whatsappMessageEdit" name="whatsapp_message" class="form-input"></textarea>
+                            <textarea id="whatsappMessageEdit" name="message" class="form-input"></textarea>
                         </div>
 
                         <div class="form-group">
@@ -583,6 +583,7 @@
                 e.preventDefault();
 
                 let form = $(this);
+                let data = new FormData(this);
                 let btn = $('#formSubmitAdd');
 
                 btn.prop('disabled', true);
@@ -592,10 +593,17 @@
                 $.ajax({
                     url: form.attr('action'),
                     method: 'POST',
-                    data: form.serialize(),
+                    data: data,
+                    processData: false,
+                    contentType: false,
                     success: function(res) {
                         closeModal('#modalAdd');
                         form[0].reset();
+                        $('#imageInputAdd').val('');
+                        $('#imageFileNameAdd').text('Belum ada file dipilih');
+                        $('#imagePreviewAdd').attr('src', '');
+                        $('#imagePreviewBoxAdd').hide();
+                        $('#imageUploadAdd').removeClass('is-active');
                         table.ajax.reload(null, false);
                         toastr.success(res.message);
                     },
@@ -648,6 +656,7 @@
                 e.preventDefault();
 
                 let form = $(this);
+                let data = new FormData(this);
                 let btn = $('#formSubmitEdit');
 
                 btn.prop('disabled', true);
@@ -657,7 +666,9 @@
                 $.ajax({
                     url: form.attr('action'),
                     method: 'POST',
-                    data: form.serialize(),
+                    data: data,
+                    processData: false,
+                    contentType: false,
                     success: function(res) {
                         closeModal('#modalEdit');
                         table.ajax.reload(null, false);
@@ -681,6 +692,9 @@
 
             $(document).on('click', '.delete-btn', function () {
                 $('#idDelete').val($(this).data('id'));
+                console.log($(this).data('id'));
+                console.log($('#idDelete').val());
+                
                 $('#deleteUserName').text($(this).data('name'));
                 openModal('#modalDelete');
             });
