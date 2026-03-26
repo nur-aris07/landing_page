@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="{{ $settings['site_name'] }} – Solusi Lengkap untuk Kebutuhan Otomotif, Alat Berat, Properti, dan Travel Anda." />
+  <meta property="og:title" content="{{ $settings['site_name'] }} – Solusi Terpercaya" />
+  <meta property="og:description" content="Solusi Lengkap untuk Kebutuhan Anda" />
+  <title>{{ $settings['site_name'] }} – Solusi Lengkap untuk Kebutuhan Anda</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+  <link rel="stylesheet" href="{{ asset('assets/css/temp_style.css') }}" />
+</head>
+
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar" id="navbar">
+    <div class="container navbar__inner">
+      <a href="#beranda" class="navbar__logo">{{ $settings['site_name'] }}</a>
+      <nav class="navbar__nav" id="navMenu">
+        <a href="#beranda">Beranda</a>
+        <a href="#layanan">Layanan</a>
+        <a href="#katalog">Katalog</a>
+        <a href="#tentang">Tentang Kami</a>
+        <a href="#kontak">Kontak</a>
+      </nav>
+      <a href="https://api.whatsapp.com/send/?phone={{ $settings['whatsapp_number'] }}&text=Halo,%20saya%20ingin%20informasi%20lebih%20lanjut"
+        class="btn btn--accent navbar__cta" target="_blank" rel="noopener">Hubungi Kami</a>
+      <button class="navbar__hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" id="beranda">
+      <div class="hero__bg"></div>
+      <div class="container hero__content">
+        <div class="hero__badge fade-in-up">
+          <span>4 Kategori Layanan</span>
+          <span class="divider">|</span>
+          <span>100+ Produk</span>
+          <span class="divider">|</span>
+          <span>Terpercaya</span>
+        </div>
+        <h1 class="hero__title fade-in-up">
+          Solusi Terpercaya untuk<br />
+          <span class="hero__cycle" id="heroCycle">Otomotif</span>
+        </h1>
+        <p class="hero__sub fade-in-up">
+          Kami menghadirkan produk dan layanan berkualitas tinggi di bidang Otomotif, Alat Berat, Properti, dan Travel —
+          siap membantu kebutuhan Anda dengan solusi terbaik.
+        </p>
+        <div class="hero__cta fade-in-up">
+          <a href="#layanan" class="btn btn--accent">Lihat Layanan Kami</a>
+          <a href="https://api.whatsapp.com/send/?phone={{ $settings['whatsapp_number'] }}&text=Halo,%20saya%20ingin%20informasi%20lebih%20lanjut"
+            class="btn btn--outline" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+              <path
+                d="M12 0C5.373 0 0 5.373 0 12c0 2.134.558 4.133 1.532 5.87L.057 23.012a.75.75 0 0 0 .931.931l5.142-1.475A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.96 0-3.793-.5-5.393-1.38l-.387-.215-4.01 1.151 1.152-3.91-.237-.401A9.955 9.955 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+            </svg>
+            Hubungi via WhatsApp
+          </a>
+        </div>
+      </div>
+      <div class="hero__scroll-indicator"><span></span></div>
+    </section>
+
+    <!-- ===== SERVICES SECTION ===== -->
+    <section class="services section" id="layanan">
+      <div class="container">
+        <div class="section-header fade-in-up">
+          <span class="section-tag">Apa yang Kami Tawarkan</span>
+          <h2 class="section-title">Layanan Kami</h2>
+          <p class="section-sub">Kami hadir dengan 4 kategori layanan unggulan</p>
+        </div>
+        <div class="services__grid">
+          <div class="service-card fade-in-up" data-scroll-to="otomotif">
+            <div class="service-card__icon"><i class="ti ti-car"></i></div>
+            <h3 class="service-card__title">Otomotif</h3>
+            <p class="service-card__desc">Berbagai pilihan kendaraan berkualitas, mulai dari mobil penumpang hingga
+              kendaraan komersial.</p>
+            <a href="#katalog" class="service-card__link" data-tab="otomotif">Lihat Katalog →</a>
+          </div>
+          <div class="service-card fade-in-up" data-scroll-to="alat-berat">
+            <div class="service-card__icon"><i class="ti ti-crane"></i></div>
+            <h3 class="service-card__title">Alat Berat</h3>
+            <p class="service-card__desc">Solusi peralatan konstruksi dan industri untuk mendukung proyek Anda.</p>
+            <a href="#katalog" class="service-card__link" data-tab="alat-berat">Lihat Katalog →</a>
+          </div>
+          <div class="service-card fade-in-up" data-scroll-to="properti">
+            <div class="service-card__icon"><i class="ti ti-building-estate"></i></div>
+            <h3 class="service-card__title">Properti</h3>
+            <p class="service-card__desc">Pilihan properti strategis untuk hunian dan investasi bisnis Anda.</p>
+            <a href="#katalog" class="service-card__link" data-tab="properti">Lihat Katalog →</a>
+          </div>
+          <div class="service-card fade-in-up" data-scroll-to="travel">
+            <div class="service-card__icon"><i class="ti ti-plane"></i></div>
+            <h3 class="service-card__title">Travel</h3>
+            <p class="service-card__desc">Layanan perjalanan nyaman dan profesional untuk wisata maupun bisnis.</p>
+            <a href="#katalog" class="service-card__link" data-tab="travel">Lihat Katalog →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== WHY CHOOSE US ===== -->
+    <section class="why section" id="tentang">
+      <div class="container">
+        <div class="section-header fade-in-up">
+          <span class="section-tag">Keunggulan Kami</span>
+          <h2 class="section-title">Mengapa Memilih Kami?</h2>
+        </div>
+        <div class="why__grid">
+          <div class="why-card fade-in-up">
+            <div class="why-card__icon"><i class="ti ti-shield-check"></i></div>
+            <h3>Produk Berkualitas</h3>
+            <p>Setiap produk telah melalui seleksi ketat untuk memastikan kualitas terbaik bagi pelanggan kami.</p>
+          </div>
+          <div class="why-card fade-in-up">
+            <div class="why-card__icon"><i class="ti ti-message-dots"></i></div>
+            <h3>Konsultasi Gratis</h3>
+            <p>Tim kami siap membantu kapan saja, 7 hari seminggu, tanpa biaya untuk setiap pertanyaan Anda.</p>
+          </div>
+          <div class="why-card fade-in-up">
+            <div class="why-card__icon"><i class="ti ti-lock"></i></div>
+            <h3>Terpercaya</h3>
+            <p>Pengalaman bertahun-tahun melayani pelanggan menjadikan kami mitra bisnis yang dapat diandalkan.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CATALOG SECTION ===== -->
+    <section class="catalog section" id="katalog">
+      <div class="container">
+        <div class="section-header fade-in-up">
+          <span class="section-tag">Temukan Pilihan Terbaik</span>
+          <h2 class="section-title">Katalog Produk &amp; Layanan</h2>
+          <p class="section-sub">Temukan detail lengkap setiap layanan kami</p>
+        </div>
+
+        <!-- TAB FILTER -->
+        <div class="catalog__tabs fade-in-up" role="tablist">
+          <button class="tab-btn active" data-filter="semua" role="tab" aria-selected="true">Semua</button>
+          <button class="tab-btn" data-filter="otomotif" role="tab" aria-selected="false">Otomotif</button>
+          <button class="tab-btn" data-filter="alat-berat" role="tab" aria-selected="false">Alat Berat</button>
+          <button class="tab-btn" data-filter="properti" role="tab" aria-selected="false">Properti</button>
+          <button class="tab-btn" data-filter="travel" role="tab" aria-selected="false">Travel</button>
+        </div>
+
+        <!-- CATALOG GRID -->
+        <div class="catalog__grid" id="catalogGrid">
+
+          <!-- OTOMOTIF -->
+          {{-- <div class="catalog-card" data-category="otomotif">
+            <div class="catalog-card__img cat--otomotif"><i class="ti ti-car"></i></div>
+            <span class="catalog-card__badge badge--otomotif">Otomotif</span>
+            <span class="catalog-card__price">Rp {{ number_format($catalogs->price, 0, ',', '.') }}</span>
+            <div class="catalog-card__body">
+              <h4>{{ $catalogs->title }}</h4>
+              <ul class="specs">
+                <li>✓ Tipe: MPV</li>
+                <li>✓ Bahan Bakar: Bensin</li>
+                <li>✓ Kapasitas: 7 Penumpang</li>
+                <li>✓ Kondisi: Baru</li>
+              </ul>
+              <div class="catalog-card__loc">📍 {{ $catalogs->location }}</div>
+              <a href="#" class="btn btn--wa catalog-card__cta" data-product="Toyota Avanza 2024" target="_blank"
+                rel="noopener">Info via WhatsApp</a>
+            </div>
+          </div> --}}
+
+          <div class="catalog-card" data-category="otomotif">
+            <div class="catalog-card__img cat--otomotif"><i class="ti ti-car-suv"></i></div>
+            <span class="catalog-card__badge badge--otomotif">Otomotif</span>
+            <span class="catalog-card__price">Rp 520.000.000</span>
+            <div class="catalog-card__body">
+              <h4>Honda CR-V Turbo</h4>
+              <ul class="specs">
+                <li>✓ Tipe: SUV</li>
+                <li>✓ Mesin: Turbo</li>
+                <li>✓ Kapasitas: 5 Penumpang</li>
+                <li>✓ Kondisi: Baru</li>
+              </ul>
+              <div class="catalog-card__loc">📍 Surabaya</div>
+              <a href="#" class="btn btn--wa catalog-card__cta" data-product="Honda CR-V Turbo" target="_blank"
+                rel="noopener">Info via WhatsApp</a>
+            </div>
+          </div>
+
+          <div class="catalog-card" data-category="otomotif">
+            <div class="catalog-card__img cat--otomotif"><i class="ti ti-truck"></i></div>
+            <span class="catalog-card__badge badge--otomotif">Otomotif</span>
+            <span class="catalog-card__price">Rp 185.000.000</span>
+            <div class="catalog-card__body">
+              <h4>Daihatsu Gran Max Pick Up</h4>
+              <ul class="specs">
+                <li>✓ Tipe: Pick Up</li>
+                <li>✓ Fungsi: Niaga</li>
+                <li>✓ Kapasitas: 2 Penumpang</li>
+                <li>✓ Kondisi: Baru</li>
+              </ul>
+              <div class="catalog-card__loc">📍 Malang</div>
+              <a href="#" class="btn btn--wa catalog-card__cta" data-product="Daihatsu Gran Max Pick Up" target="_blank"
+                rel="noopener">Info via WhatsApp</a>
+            </div>
+          </div>
+
+          <div class="catalog-card" data-category="otomotif">
+            <div class="catalog-card__img cat--otomotif"><i class="ti ti-car"></i></div>
+            <span class="catalog-card__badge badge--otomotif">Otomotif</span>
+            <span class="catalog-card__price">Rp 680.000.000</span>
+            <div class="catalog-card__body">
+              <h4>Mitsubishi Pajero Sport</h4>
+              <ul class="specs">
+                <li>✓ Tipe: SUV</li>
+                <li>✓ Penggerak: 4WD</li>
+                <li>✓ Kapasitas: 7 Penumpang</li>
+                <li>✓ Kondisi: Baru</li>
+              </ul>
+              <div class="catalog-card__loc">📍 Bali</div>
+              <a href="#" class="btn btn--wa catalog-card__cta" data-product="Mitsubishi Pajero Sport" target="_blank"
+                rel="noopener">Info via WhatsApp</a>
+            </div>
+          </div>
+
+          <!-- ALAT BERAT -->
+          <div class="catalog-card" data-category="alat-berat">
+            <div class="catalog-card__img cat--alat-berat"><i class="ti ti-backhoe"></i></div>
+            <span class="catalog-card__badge badge--alat-berat">Alat Berat</span>
+            <span class="catalog-card__price price--contact">Hubungi Kami</span>
+            <div class="catalog-card__body">
+              <h4>Excavator Komatsu PC200</h4>
+              <ul class="specs">
+                <li>✓ Berat: 20 Ton</li>
+                <li>✓ Fungsi: Konstruksi</li>
+                <li>✓ Status: Sewa / Jual</li>
+                <li>✓ Kondisi: Prima</li>
+              </ul>
+              <div class="catalog-card__loc">📍 Surabaya</div>
+              <a href="#" class="btn btn--wa catalog-card__cta" data-product="Excavator Komatsu PC200" target="_blank"
+                rel="noopener">Info via WhatsApp</a>
+            </div>
+          </div>
+
+          <div class="catalog-card" data-category="alat-berat">
+            <div class="catalog-card__img cat--alat-berat"><i class="ti ti-bulldozer"></i></div>
+            <span class="catalog-card__badge badge--alat-berat">Alat Berat</span>
+            <span class="catalog-card__price price--contact">Hubungi Kami</span>
+            <div class="catalog-card__body">
+              <h4>Bulldozer CAT D6T</h4>
+              <ul class="specs">
+                <li>✓ Berat: 17 Ton</li>
+                <li>✓ Fungsi: Grading</li>
+                <li>✓ Status: Sewa / Jual</li>
+                <li>✓ Kondisi: Prima</li>
+              </ul>
+              <div class="catalog-card__loc">📍 Jakarta</div>
+              <a href="#" class="btn btn--wa catalog-card__cta" data-product="Bulldozer CAT D6T" target="_blank"
+                rel="noopener">Info via WhatsApp</a>
+            </div>
+          </div>
+
+          <div class="catalog-card" data-category="alat-berat">
+            <div class="catalog-card__img cat--alat-berat"><i class="ti ti-crane"></i></div>
+            <span class="catalog-card__badge badge--alat-berat">Alat Berat</span>
+            <span class="catalog-card__price price--contact">Hubungi Kami</span>
+            <div class="catalog-card__body">
+              <h4>Crane 25 Ton Tadano</h4>
+              <ul class="specs">
+                <li>✓ Kapasitas: 25 Ton</li>
+                <li>✓ Tipe: Mobile Crane</li>
+                <li>✓ Status: Sewa</li>
+                <li>✓ Kondisi: Terawat</li>
+              </ul>
+              <div class="catalog-card__loc">📍 Malang</div>
+              <a href="#" class="btn btn--wa catalog-card__cta" data-product="Crane 25 Ton Tadano" target="_blank"
+                rel="noopener">Info via WhatsApp</a>
+            </div>
+          </div>
+
+          <div class="catalog-card" data-category="alat-berat">
+            <div class="catalog-card__img cat--alat-berat"><i class="ti ti-forklift"></i></div>
+            <span class="catalog-card__badge badge--alat-berat">Alat Berat</span>
+            <span class="catalog-card__price">Rp 180.000.000</span>
+            <div class="catalog-card__body">
+              <h4>Forklift Toyota 3 Ton</h4>
+              <ul class="specs">
+                <li>✓ Tipe: Electric</li>
+                <li>✓ Fungsi: Indoor</li>
+                <li>✓ Status: Jual</li>
+                <li>✓ Kapasitas: 3 Ton</li>
+              </ul>
+              <div class="catalog-card__loc">📍 Surabaya</div>
+              <a href="#" class="btn btn--wa catalog-card__cta" data-product="Forklift Toyota 3 Ton" target="_blank"
+                rel="noopener">Info via WhatsApp</a>
+            </div>
+          </div>
+
+          <!-- PROPERTI -->
+          <div class="catalog-card" data-category="properti">
+            <div class="catalog-card__img cat--properti"><i class="ti ti-building-store"></i></div>
+            <span class="catalog-card__badge badge--properti">Properti</span>
+            <span class="catalog-card__price">Rp 1.200.000.000</span>
+            <div class="catalog-card__body">
+              <h4>Ruko 2 Lantai Strategis</h4>
+              <ul class="specs">
+                <li>✓ Luas: 120m²</li>
+                <li>✓ Tipe: Komersial</li>
+                <li>✓ Sertifikat: SHM</li>
+                <li>✓ Kondisi: Siap Huni</li>
+              </ul>
+              <div class="catalog-card__loc">📍 Surabaya</div>
+              <a href="#" class="btn btn--wa catalog-card__cta" data-product="Ruko 2 Lantai Strategis" target="_blank"
+                rel="noopener">Info via WhatsApp</a>
+            </div>
+          </div>
+
+          <div class="catalog-card" data-category="properti">
+            <div class="catalog-card__img cat--properti"><i class="ti ti-home"></i></div>
+            <span class="catalog-card__badge badge--properti">Properti</span>
+            <span class="catalog-card__price">Rp 750.000.000</span>
+            <div class="catalog-card__body">
+              <h4>Rumah Minimalis Modern</h4>
+              <ul class="specs">
+                <li>✓ Luas: 90/150m²</li>
+                <li>✓ Tipe: Residensial</li>
+                <li>✓ Sertifikat: SHM</li>
+                <li>✓ Kondisi: Baru</li>
+              </ul>
+              <div class="catalog-card__loc">📍 Sidoarjo</div>
+              <a href="#" class="btn btn--wa catalog-card__cta" data-product="Rumah Minimalis Modern" target="_blank"
+                rel="noopener">Info via WhatsApp</a>
+            </div>
+          </div>
+
+          <div class="catalog-card" data-category="properti">
+            <div class="catalog-card__img cat--properti"><i class="ti ti-map-pin"></i></div>
+            <span class="catalog-card__badge badge--properti">Properti</span>
+            <span class="catalog-card__price">Rp 450.000.000</span>
+            <div class="catalog-card__body">
+              <h4>Kavling Siap Bangun</h4>
+              <ul class="specs">
+                <li>✓ Luas: 200m²</li>
+                <li>✓ Tipe: Tanah</li>
+                <li>✓ Sertifikat: SHM</li>
+                <li>✓ Lokasi Strategis</li>
+              </ul>
+              <div class="catalog-card__loc">📍 Malang</div>
+              <a href="#" class="btn btn--wa catalog-card__cta" data-product="Kavling Siap Bangun" target="_blank"
+                rel="noopener">Info via WhatsApp</a>
+            </div>
+          </div>
+
+          <div class="catalog-card" data-category="properti">
+            <div class="catalog-card__img cat--properti"><i class="ti ti-building"></i></div>
+            <span class="catalog-card__badge badge--properti">Properti</span>
+            <span class="catalog-card__price">Rp 350.000.000</span>
+            <div class="catalog-card__body">
+              <h4>Apartemen Studio</h4>
+              <ul class="specs">
+                <li>✓ Luas: 28m²</li>
+                <li>✓ Tipe: High-Rise</li>
+                <li>✓ Sertifikat: SHM</li>
+                <li>✓ Furnished</li>
+              </ul>
+              <div class="catalog-card__loc">📍 Surabaya</div>
+              <a href="#" class="btn btn--wa catalog-card__cta" data-product="Apartemen Studio" target="_blank"
+                rel="noopener">Info via WhatsApp</a>
+            </div>
+          </div>
+
+          <!-- TRAVEL -->
+          <div class="catalog-card" data-category="travel">
+            <div class="catalog-card__img cat--travel"><i class="ti ti-plane-tilt"></i></div>
+            <span class="catalog-card__badge badge--travel">Travel</span>
+            <span class="catalog-card__price">Rp 2.500.000/pax</span>
+            <div class="catalog-card__body">
+              <h4>Paket Bali 3D2N</h4>
+              <ul class="specs">
+                <li>✓ Hotel: Bintang 3</li>
+                <li>✓ Keberangkatan: PP Surabaya</li>
+                <li>✓ Min: 2 Pax</li>
+                <li>✓ Include: Breakfast</li>
+              </ul>
+              <div class="catalog-card__loc">📍 Bali</div>
+              <a href="#" class="btn btn--wa catalog-card__cta" data-product="Paket Bali 3D2N" target="_blank"
+                rel="noopener">Info via WhatsApp</a>
+            </div>
+          </div>
+
+          <div class="catalog-card" data-category="travel">
+            <div class="catalog-card__img cat--travel"><i class="ti ti-bus"></i></div>
+            <span class="catalog-card__badge badge--travel">Travel</span>
+            <span class="catalog-card__price">Rp 350.000/pax</span>
+            <div class="catalog-card__body">
+              <h4>City Tour Surabaya</h4>
+              <ul class="specs">
+                <li>✓ Durasi: Full Day</li>
+                <li>✓ AC &amp; Nyaman</li>
+                <li>✓ Driver Profesional</li>
+                <li>✓ Pemandu Wisata</li>
+              </ul>
+              <div class="catalog-card__loc">📍 Surabaya</div>
+              <a href="#" class="btn btn--wa catalog-card__cta" data-product="City Tour Surabaya" target="_blank"
+                rel="noopener">Info via WhatsApp</a>
+            </div>
+          </div>
+
+          <div class="catalog-card" data-category="travel">
+            <div class="catalog-card__img cat--travel"><i class="ti ti-car"></i></div>
+            <span class="catalog-card__badge badge--travel">Travel</span>
+            <span class="catalog-card__price">Rp 250.000/trip</span>
+            <div class="catalog-card__body">
+              <h4>Airport Transfer</h4>
+              <ul class="specs">
+                <li>✓ Rute: Juanda ↔ Kota</li>
+                <li>✓ Layanan: 24 Jam</li>
+                <li>✓ Max: 4 Pax</li>
+                <li>✓ AC &amp; Tepat Waktu</li>
+              </ul>
+              <div class="catalog-card__loc">📍 Surabaya</div>
+              <a href="#" class="btn btn--wa catalog-card__cta" data-product="Airport Transfer" target="_blank"
+                rel="noopener">Info via WhatsApp</a>
+            </div>
+          </div>
+
+          <div class="catalog-card" data-category="travel">
+            <div class="catalog-card__img cat--travel"><i class="ti ti-mountain"></i></div>
+            <span class="catalog-card__badge badge--travel">Travel</span>
+            <span class="catalog-card__price">Rp 800.000/pax</span>
+            <div class="catalog-card__body">
+              <h4>Paket Wisata Bromo</h4>
+              <ul class="specs">
+                <li>✓ Durasi: 1 Hari</li>
+                <li>✓ Kendaraan: Jeep</li>
+                <li>✓ Sunrise Trip</li>
+                <li>✓ Keberangkatan: Malang</li>
+              </ul>
+              <div class="catalog-card__loc">📍 Malang</div>
+              <a href="#" class="btn btn--wa catalog-card__cta" data-product="Paket Wisata Bromo" target="_blank"
+                rel="noopener">Info via WhatsApp</a>
+            </div>
+          </div>
+
+        </div><!-- /catalog__grid -->
+      </div>
+    </section>
+
+    <!-- ===== STATS SECTION ===== -->
+    <section class="stats section" id="stats">
+      <div class="container stats__grid">
+        <div class="stat-item fade-in-up">
+          <span class="stat-num" data-target="500">0</span><span class="stat-suffix">+</span>
+          <p>Produk Tersedia</p>
+        </div>
+        <div class="stat-item fade-in-up">
+          <span class="stat-num" data-target="4">0</span>
+          <p>Kategori Layanan</p>
+        </div>
+        <div class="stat-item fade-in-up">
+          <span class="stat-num" data-target="1000">0</span><span class="stat-suffix">+</span>
+          <p>Pelanggan Puas</p>
+        </div>
+        <div class="stat-item fade-in-up">
+          <span class="stat-num" data-target="5">0</span><span class="stat-suffix">+</span>
+          <p>Tahun Pengalaman</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== TESTIMONIALS ===== -->
+    <section class="testimonials section" id="testimoni">
+      <div class="container">
+        <div class="section-header fade-in-up">
+          <span class="section-tag">Apa Kata Mereka</span>
+          <h2 class="section-title">Testimoni Pelanggan</h2>
+        </div>
+        <div class="testimonials__grid">
+          <div class="testi-card fade-in-up">
+            <div class="testi-card__stars">★★★★★</div>
+            <p>"Pelayanan sangat profesional dan produk yang ditawarkan berkualitas tinggi. Sangat puas dengan
+              pengalaman berbelanja di sini!"</p>
+            <div class="testi-card__author">
+              <div class="testi-card__avatar">B</div>
+              <div>
+                <strong>Budi Santoso</strong>
+                <span>Surabaya</span>
+              </div>
+            </div>
+          </div>
+          <div class="testi-card fade-in-up">
+            <div class="testi-card__stars">★★★★★</div>
+            <p>"Kami membeli excavator untuk proyek konstruksi dan hasilnya memuaskan. Tim sangat responsif dan membantu
+              proses pembelian."</p>
+            <div class="testi-card__author">
+              <div class="testi-card__avatar">A</div>
+              <div>
+                <strong>Andi Pratama</strong>
+                <span>Jakarta</span>
+              </div>
+            </div>
+          </div>
+          <div class="testi-card fade-in-up">
+            <div class="testi-card__stars">★★★★★</div>
+            <p>"Paket travel Bali yang kami pesan sangat worth it! Hotel nyaman, pemandu berpengalaman. Highly
+              recommended!"</p>
+            <div class="testi-card__author">
+              <div class="testi-card__avatar">S</div>
+              <div>
+                <strong>Sari Wulandari</strong>
+                <span>Malang</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA BANNER ===== -->
+    <section class="cta-banner section" id="kontak">
+      <div class="container cta-banner__inner fade-in-up">
+        <h2>Tertarik dengan Produk atau Layanan Kami?</h2>
+        <p>Konsultasi gratis tanpa biaya. Tim kami siap membantu Anda.</p>
+        <a href="https://api.whatsapp.com/send/?phone={{ $settings['whatsapp_number'] }}&text=Halo,%20saya%20tertarik%20dengan%20layanan%20anda"
+          class="btn btn--wa btn--lg" target="_blank" rel="noopener">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path
+              d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+            <path
+              d="M12 0C5.373 0 0 5.373 0 12c0 2.134.558 4.133 1.532 5.87L.057 23.012a.75.75 0 0 0 .931.931l5.142-1.475A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.96 0-3.793-.5-5.393-1.38l-.387-.215-4.01 1.151 1.152-3.91-.237-.401A9.955 9.955 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+          </svg>
+          Hubungi Kami Sekarang
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container footer__top">
+      <div class="footer__brand">
+        <div class="footer__logo">{{ $settings['site_name'] }}</div>
+        <p>Solusi Lengkap untuk Kebutuhan Otomotif, Alat Berat, Properti, dan Travel Anda.</p>
+        <div class="footer__socials">
+          <a href="#" aria-label="Instagram" class="social-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162S8.597 18.163 12 18.163s6.162-2.759 6.162-6.162S15.403 5.838 12 5.838zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+            </svg>
+          </a>
+          <a href="#" aria-label="Facebook" class="social-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer__links">
+        <div class="footer__col">
+          <h4>Layanan</h4>
+          <a href="#katalog">Otomotif</a>
+          <a href="#katalog">Alat Berat</a>
+          <a href="#katalog">Properti</a>
+          <a href="#katalog">Travel</a>
+        </div>
+        <div class="footer__col">
+          <h4>Perusahaan</h4>
+          <a href="#tentang">Tentang Kami</a>
+          <a href="#kontak">Kontak</a>
+          <a href="#">Karir</a>
+        </div>
+        <div class="footer__col">
+          <h4>Kontak</h4>
+          <span>📍 [Alamat Perusahaan]</span>
+          <span>📞 [Nomor Telepon]</span>
+          <span>✉️ {{ $settings['contact_email'] }}</span>
+          <a href="https://api.whatsapp.com/send/?phone={{ $settings['whatsapp_number'] }}&text=Halo" target="_blank" rel="noopener">💬
+            WhatsApp</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <div class="container">
+        <span>© 2026 [COMPANY NAME]. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <a href="https://api.whatsapp.com/send/?phone={{ $settings['whatsapp_number'] }}&text=Halo,%20saya%20ingin%20informasi%20lebih%20lanjut"
+    class="wa-float" id="waFloat" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+      <path
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+      <path
+        d="M12 0C5.373 0 0 5.373 0 12c0 2.134.558 4.133 1.532 5.87L.057 23.012a.75.75 0 0 0 .931.931l5.142-1.475A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.96 0-3.793-.5-5.393-1.38l-.387-.215-4.01 1.151 1.152-3.91-.237-.401A9.955 9.955 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+    </svg>
+  </a>
+
+  <script src="{{ asset('assets/js/temp_scripts.js') }}"></script>
+</body>
+
+</html>

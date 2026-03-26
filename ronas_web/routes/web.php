@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CatalogSpecController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\ServiceSpecController;
 use App\Http\Controllers\SettingsController;
@@ -11,9 +12,8 @@ use App\Http\Controllers\TestimoniController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [IndexController::class, 'index'])->name('index');
+Route::get('/temp', [IndexController::class, 'temp'])->name('temp');
 Route::get('/captcha', function () {
     return response()->json(['captcha' => captcha_img('math')]);
 })->name('captcha');
