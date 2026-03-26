@@ -19,6 +19,10 @@ class ServiceCategory extends Model
         'is_active',
     ];
 
+    public function specs() {
+        return $this->hasMany(Spec::class, 'service_category_id');
+    }
+
     public function getImageUrlAttribute() {
         if (!$this->image) {
             return asset('images/default-category.png');

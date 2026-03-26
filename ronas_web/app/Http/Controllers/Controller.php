@@ -4,13 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 abstract class Controller
 {
-    protected function handleDatabase(callable $callback, $successMessage, $isAjax=false) {
+    protected function handleDatabase(callable $callback, $successMessage, $isAjax=false, $useTransaction=false) {
         try {
+            if ($useTransaction) {
+                DB::beginTransaction();
+            }
             $callback();
+            if ($useTransaction) {
+                DB::commit();
+            }
             if ($isAjax) {
                 return response()->json([
                     'status' => 'success',
@@ -20,6 +27,9 @@ abstract class Controller
             return back()->with('success', $successMessage);
 
         } catch (QueryException $e) {
+            if ($useTransaction) {
+                DB::rollBack();
+            }
             if ($e->errorInfo[1] == 1062) {
                 if ($isAjax) {
                     return response()->json([
@@ -38,6 +48,9 @@ abstract class Controller
             return back()->with('error', 'Terjadi kesalahan database.');
 
         } catch (Throwable $e) {
+            if ($useTransaction) {
+                DB::rollBack();
+            }
             if ($isAjax) {
                 return response()->json([
                     'status' => 'error',

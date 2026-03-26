@@ -24,6 +24,10 @@ class Spec extends Model
         return $this->belongsTo(ServiceCategory::class, 'service_category_id');
     }
 
+    public function specs() {
+        return $this->hasMany(Spec::class, 'service_category_id');
+    }
+
     public function getHashIdAttribute(): string {
         return Crypt::encryptString($this->id);
     }

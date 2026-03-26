@@ -512,6 +512,16 @@
     .qa-btn i { font-size: 18px; }
     .qa-btn:hover { border-color: var(--accent); color: var(--accent); }
     .qa-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    
+    .qa-btn:disabled,
+    .qa-btn[disabled] {
+        background: #e5e7eb !important;
+        color: #9ca3af !important;
+        border-color: #e5e7eb !important;
+        cursor: not-allowed;
+        pointer-events: none;
+        box-shadow: none;
+    }
     .qa-btn.primary {
       background: var(--accent); color: var(--primary);
       border-color: var(--accent); font-weight: 600;

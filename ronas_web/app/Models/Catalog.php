@@ -32,6 +32,10 @@ class Catalog extends Model
         return $this->belongsTo(ServiceCategory::class, 'service_category_id');
     }
 
+    public function specs() {
+        return $this->hasMany(CatalogSpec::class, 'catalog_id');
+    }
+
     public function getImageUrlAttribute() {
         if (!$this->image) {
             return asset('images/default-catalog.png');

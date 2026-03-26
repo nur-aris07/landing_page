@@ -14,7 +14,6 @@ class CatalogSpec extends Model
         'catalog_id',
         'spec_id',
         'spec_value',
-        'sort_order',
     ];
 
     public function catalog() {

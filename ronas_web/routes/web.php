@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\CatalogSpecController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ServicesController;
 use App\Http\Controllers\ServiceSpecController;
@@ -38,7 +39,9 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/catalogs/add', [CatalogController::class, 'store'])->name('catalogs.add');
     Route::post('/catalogs/update', [CatalogController::class, 'update'])->name('catalogs.update');
     Route::post('/catalogs/delete', [CatalogController::class, 'destroy'])->name('catalogs.delete');
-
+    Route::get('/catalogs/{catalog}/specs', [CatalogSpecController::class, 'index'])->name('catalogs.specs.index');
+    Route::post('/catalogs/{catalog}/specs/add', [CatalogSpecController::class, 'store'])->name('catalogs.specs.add');
+    
     Route::get('/testimoni', [TestimoniController::class, 'index'])->name('testimoni.index');
     Route::post('/testimoni/add', [TestimoniController::class, 'store'])->name('testimoni.add');
     Route::post('/testimoni/update', [TestimoniController::class, 'update'])->name('testimoni.update');

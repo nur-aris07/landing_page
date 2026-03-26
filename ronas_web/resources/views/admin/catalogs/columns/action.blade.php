@@ -1,6 +1,6 @@
 <div style="display:flex; align-items:center; gap:8px;">
     <a
-        {{-- href="{{ route('catalogs.details.index', $catalog->id) }}" --}}
+        href="{{ route('catalogs.specs.index', $catalog->hash_id) }}"
         class="qa-btn"
         title="Detail Katalog"
     >
