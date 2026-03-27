@@ -151,10 +151,11 @@ class CatalogController extends Controller
         if (!$catalogId) {
             return $this->failResponse('ID katalog tidak valid.');
         }
-        $serviceId = $this->decryptId($request->service);
-        if (!$serviceId) {
-            return $this->failResponse('ID Service tidak valid.');
-        }
+        $serviceId = (int) ($request->service);
+        // $serviceId = $this->decryptId($request->service);
+        // if (!$serviceId) {
+        //     return $this->failResponse('ID Service tidak valid.');
+        // }
 
         $service = ServiceCategory::where('id', $serviceId)->first();
         if (!$service) {

@@ -135,8 +135,11 @@
               target="_blank"
               rel="noopener"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.872.118.571-.085 1.758-.718 2.006-1.412.248-.694.248-1.29.173-1.412-.074-.124-.272-.198-.57-.347z"/>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path
+                  d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+                <path
+                  d="M12 0C5.373 0 0 5.373 0 12c0 2.134.558 4.133 1.532 5.87L.057 23.012a.75.75 0 0 0 .931.931l5.142-1.475A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.96 0-3.793-.5-5.393-1.38l-.387-.215-4.01 1.151 1.152-3.91-.237-.401A9.955 9.955 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
               </svg>
               Hubungi via WhatsApp
             </a>
@@ -247,20 +250,44 @@
               $slug = $catalog->category_slug ?: Str::slug($category->name ?? 'lainnya');
               $theme = catalogThemeClass($slug);
               $iconClass = catalogIconClass($catalog, $category, $slug);
+
+              $catalogImage = null;
+
+              if (!empty($catalog->image_url)) {
+                  $catalogImage = $catalog->image_url;
+              } elseif (!empty($catalog->image)) {
+                  $catalogImage = asset('storage/' . ltrim($catalog->image, '/'));
+              }
             @endphp
 
             <div class="catalog-card fade-in-up" data-category="{{ $slug }}" data-catalog-item>
-              <div class="catalog-card__img cat--{{ $theme }}">
-                <i class="{{ $iconClass }}"></i>
+              <div class="catalog-card__media">
+                <div class="catalog-card__img {{ $catalogImage ? 'has-image cat-image--' . $theme : 'cat--' . $theme }}">
+                  @if($catalogImage)
+                    <img
+                      src="{{ $catalogImage }}"
+                      alt="{{ $catalog->title }}"
+                      class="catalog-card__photo"
+                      loading="lazy"
+                    >
+                    <div class="catalog-card__img-overlay"></div>
+
+                    <span class="catalog-card__img-icon">
+                      <i class="{{ $iconClass }}"></i>
+                    </span>
+                  @else
+                    <i class="{{ $iconClass }}"></i>
+                  @endif
+                </div>
+
+                <span class="catalog-card__badge badge--{{ $theme }}">
+                  {{ strtoupper($category->name ?? 'Lainnya') }}
+                </span>
+
+                <span class="catalog-card__price {{ is_null($catalog->price) ? 'price--contact' : '' }}">
+                  {{ $catalog->formatted_price }}
+                </span>
               </div>
-
-              <span class="catalog-card__badge badge--{{ $theme }}">
-                {{ strtoupper($category->name ?? 'Lainnya') }}
-              </span>
-
-              <span class="catalog-card__price {{ is_null($catalog->price) ? 'price--contact' : '' }}">
-                {{ $catalog->formatted_price }}
-              </span>
 
               <div class="catalog-card__body">
                 <h4>{{ strtoupper($catalog->title) }}</h4>
@@ -268,13 +295,13 @@
                 <ul class="specs">
                   @forelse($catalog->specs as $catalogSpec)
                     <li>
-                      <span>✓</span>
+                      <span class="specs__check">✓</span>
                       <span>{{ $catalogSpec->spec->spec_label }}: {{ $catalogSpec->spec_value }}</span>
                     </li>
                   @empty
                     @if(!empty($catalog->description))
                       <li>
-                        <span>✓</span>
+                        <span class="specs__check">✓</span>
                         <span>{{ $catalog->description }}</span>
                       </li>
                     @endif
@@ -282,7 +309,10 @@
                 </ul>
 
                 @if(!empty($catalog->location))
-                  <div class="catalog-card__loc">📍 {{ $catalog->location }}</div>
+                  <div class="catalog-card__loc">
+                    <span>📍</span>
+                    <span>{{ $catalog->location }}</span>
+                  </div>
                 @endif
 
                 @if(!empty($waNumber))
@@ -349,43 +379,57 @@
           <h2 class="section-title">Testimoni Pelanggan</h2>
         </div>
 
-        <div class="testimonials__grid">
-          @forelse($testimonials as $testimonial)
-            <div class="testi-card fade-in-up">
-              <div class="testi-card__stars">
-                {{ $testimonial->stars ?: str_repeat('★', max(1, (int) ($testimonial->rating ?? 5))) }}
-              </div>
+        <div class="testimonials__slider-wrap fade-in-up">
+          <button type="button" class="testimonials__nav testimonials__nav--prev" id="testiPrev" aria-label="Sebelumnya">
+            <i class="ti ti-chevron-left"></i>
+          </button>
 
-              <p>
-                "{{ $testimonial->message }}"
-              </p>
+          <div class="testimonials__viewport">
+            <div class="testimonials__track" id="testiTrack">
+              @forelse($testimonials as $testimonial)
+                <div class="testi-slide">
+                  <div class="testi-card fade-in-up">
+                    <div class="testi-card__stars">
+                      {{ $testimonial->stars ?: str_repeat('★', max(1, (int) ($testimonial->rating ?? 5))) }}
+                    </div>
 
-              <div class="testi-card__author">
-                @if(!empty($testimonial->image))
-                  <img
-                    src="{{ $testimonial->image_url }}"
-                    alt="{{ $testimonial->customer_name }}"
-                    class="testi-card__avatar"
-                  >
-                @else
-                  <div class="testi-card__avatar">
-                    {{ testimonialInitial($testimonial->customer_name) }}
+                    <p>
+                      "{{ $testimonial->message }}"
+                    </p>
+
+                    <div class="testi-card__author">
+                      @if(!empty($testimonial->image))
+                        <img
+                          src="{{ $testimonial->image_url }}"
+                          alt="{{ $testimonial->customer_name }}"
+                          class="testi-card__avatar"
+                        >
+                      @else
+                        <div class="testi-card__avatar">
+                          {{ testimonialInitial($testimonial->customer_name) }}
+                        </div>
+                      @endif
+
+                      <div>
+                        <strong>{{ $testimonial->customer_name }}</strong>
+                        <span>
+                          {{ $testimonial->customer_city ?: ($testimonial->customer_title ?: 'Pelanggan') }}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                @endif
-
-                <div>
-                  <strong>{{ $testimonial->customer_name }}</strong>
-                  <span>
-                    {{ $testimonial->customer_city ?: ($testimonial->customer_title ?: 'Pelanggan') }}
-                  </span>
                 </div>
-              </div>
+              @empty
+                <div style="width:100%; text-align:center;">
+                  <p>Belum ada testimonial aktif.</p>
+                </div>
+              @endforelse
             </div>
-          @empty
-            <div class="fade-in-up" style="grid-column: 1 / -1; text-align:center;">
-              <p>Belum ada testimonial aktif.</p>
-            </div>
-          @endforelse
+          </div>
+
+          <button type="button" class="testimonials__nav testimonials__nav--next" id="testiNext" aria-label="Berikutnya">
+            <i class="ti ti-chevron-right"></i>
+          </button>
         </div>
       </div>
     </section>
@@ -404,7 +448,10 @@
             rel="noopener"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.872.118.571-.085 1.758-.718 2.006-1.412.248-.694.248-1.29.173-1.412-.074-.124-.272-.198-.57-.347z"/>
+              <path
+                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+              <path
+                d="M12 0C5.373 0 0 5.373 0 12c0 2.134.558 4.133 1.532 5.87L.057 23.012a.75.75 0 0 0 .931.931l5.142-1.475A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.96 0-3.793-.5-5.393-1.38l-.387-.215-4.01 1.151 1.152-3.91-.237-.401A9.955 9.955 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
             </svg>
             Hubungi Kami Sekarang
           </a>
@@ -458,6 +505,15 @@
       © {{ date('Y') }} {{ $siteName }}. All rights reserved.
     </div>
   </footer>
+
+  <!-- ===== FLOATING WHATSAPP BUTTON ===== -->
+  <a href="https://api.whatsapp.com/send/?phone={{ $waNumber }}&text={{ urlencode('Halo, saya ingin konsultasi mengenai layanan Anda') }}"
+    class="wa-float" id="waFloat" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 2.134.558 4.133 1.532 5.87L.057 23.012a.75.75 0 0 0 .931.931l5.142-1.475A11.952 11.952 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.96 0-3.793-.5-5.393-1.38l-.387-.215-4.01 1.151 1.152-3.91-.237-.401A9.955 9.955 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+    </svg>
+  </a>
 
   <script src="{{ asset('assets/js/scripts.js') }}"></script>
 </body>
