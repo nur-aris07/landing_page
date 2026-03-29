@@ -163,14 +163,16 @@
                             <input id="usernameAdd" name="username" type="text" class="form-input" placeholder="Masukkan username">
                         </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Role</label>
-                            <select id="roleAdd" name="role" class="form-select">
-                                <option value="">Pilih Role</option>
-                                <option value="superadmin">Super Admin</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div>
+                        @if(Auth::user()->role ==='superadmin')
+                            <div class="form-group">
+                                <label class="form-label">Role</label>
+                                <select id="roleAdd" name="role" class="form-select">
+                                    <option value="">Pilih Role</option>
+                                    <option value="superadmin">Super Admin</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                        @endif
 
                         <div class="form-group">
                             <label class="form-label">Password</label>
@@ -227,14 +229,16 @@
                             <input id="usernameEdit" name="username" type="text" class="form-input" placeholder="Masukkan username">
                         </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Role</label>
-                            <select id="roleEdit" name="role" class="form-select">
-                                <option value="">Pilih Role</option>
-                                <option value="superadmin">Super Admin</option>
-                                <option value="admin">Admin</option>
-                            </select>
-                        </div>
+                        @if(Auth::user()->role === 'superadmin')
+                            <div class="form-group">
+                                <label class="form-label">Role</label>
+                                <select id="roleEdit" name="role" class="form-select">
+                                    <option value="">Pilih Role</option>
+                                    <option value="superadmin">Super Admin</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                        @endif
 
                         <div class="form-group">
                             <label class="form-label">Status</label>

@@ -9,9 +9,45 @@
     use Illuminate\Support\Str;
 
     $siteName = $settings['site_name'] ?? 'Company Profile';
+    $siteTagline = $settings['site_tagline'] ?? 'Layanan Terpercaya';
+    $siteDescription = $settings['site_description']
+        ?? 'Temukan layanan dan katalog terbaik sesuai kebutuhan Anda dengan konsultasi cepat via WhatsApp.';
     $waNumber = $settings['whatsapp_number'] ?? '';
+
     $heroWords = $categories->pluck('name')->values()->all();
     $initialVisibleCatalogs = 8;
+
+    $currentUrl = url()->current();
+    $siteUrl = url('/');
+
+    $seoTitle = $settings['seo_title']
+        ?? ($siteName . ' | ' . $siteTagline);
+
+    $seoDescription = $settings['seo_description']
+        ?? $siteDescription;
+
+    $logoPath = $settings['logo_url'] ?? '';
+    $ogImagePath = $settings['og_image'] ?? '';
+
+    $logoUrl = !empty($logoPath)
+        ? (Str::startsWith($logoPath, ['http://', 'https://']) ? $logoPath : asset(ltrim($logoPath, '/')))
+        : asset('uploads/settings/default-logo.png');
+
+    $ogImage = !empty($ogImagePath)
+        ? (Str::startsWith($ogImagePath, ['http://', 'https://']) ? $ogImagePath : asset(ltrim($ogImagePath, '/')))
+        : $logoUrl;
+
+    $email = $settings['email'] ?? '';
+    $phoneRaw = $settings['phone'] ?? '';
+    $phoneClean = preg_replace('/\D+/', '', $phoneRaw);
+    $address = $settings['address'] ?? '';
+    $instagramUrl = $settings['instagram_url'] ?? '';
+    $facebookUrl = $settings['facebook_url'] ?? '';
+
+    $sameAs = array_values(array_filter([
+        $instagramUrl,
+        $facebookUrl,
+    ]));
 
     if (!function_exists('catalogThemeClass')) {
         function catalogThemeClass($slug) {
@@ -47,19 +83,100 @@
     }
   @endphp
 
-  <meta name="description"
-    content="{{ $settings['site_description'] ?? ($siteName . ' – Solusi Lengkap untuk Kebutuhan Anda.') }}" />
-  <meta property="og:title" content="{{ $siteName }} – Solusi Terpercaya" />
-  <meta property="og:description" content="{{ $settings['site_description'] ?? 'Solusi Lengkap untuk Kebutuhan Anda' }}" />
-  <title>{{ $siteName }} – Solusi Lengkap untuk Kebutuhan Anda</title>
+  <title>{{ $seoTitle }}</title>
+  <meta name="description" content="{{ $seoDescription }}" />
 
+  @if(!app()->environment('production'))
+    <meta name="robots" content="noindex,nofollow">
+  @else
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1">
+  @endif
+
+  <link rel="canonical" href="{{ $currentUrl }}" />
+
+  <meta property="og:locale" content="id_ID" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="{{ $seoTitle }}" />
+  <meta property="og:description" content="{{ $seoDescription }}" />
+  <meta property="og:url" content="{{ $currentUrl }}" />
+  <meta property="og:site_name" content="{{ $siteName }}" />
+  <meta property="og:image" content="{{ $ogImage }}" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ $seoTitle }}" />
+  <meta name="twitter:description" content="{{ $seoDescription }}" />
+  <meta name="twitter:image" content="{{ $ogImage }}" />
+
+  <link rel="icon" href="{{ $logoUrl }}" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" href="{{ asset('assets/css/style.css') }}" as="style">
+
   <link
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" />
+
+  <script type="application/ld+json">
+    {!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'Organization',
+        'name' => $siteName,
+        'url' => $siteUrl,
+        'logo' => $logoUrl,
+        'image' => $ogImage,
+        'description' => $siteDescription,
+        'email' => $email ?: null,
+        'telephone' => $phoneRaw ?: null,
+        'sameAs' => !empty($sameAs) ? $sameAs : null,
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+  </script>
+
+  <script type="application/ld+json">
+    {!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'WebSite',
+        'name' => $siteName,
+        'url' => $siteUrl,
+        'inLanguage' => 'id-ID',
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+  </script>
+
+  <script type="application/ld+json">
+    {!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'ItemList',
+        'name' => 'Katalog Produk & Layanan ' . $siteName,
+        'itemListElement' => $catalogs->values()->map(function ($catalog, $index) {
+            return [
+                '@type' => 'ListItem',
+                'position' => $index + 1,
+                'name' => $catalog->title,
+                'url' => url('/#katalog'),
+            ];
+        })->all(),
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+  </script>
+
+  @if(!empty($address) || !empty($phoneRaw) || !empty($email))
+    <script type="application/ld+json">
+      {!! json_encode([
+          '@context' => 'https://schema.org',
+          '@type' => 'LocalBusiness',
+          'name' => $siteName,
+          'url' => $siteUrl,
+          'image' => $ogImage,
+          'telephone' => $phoneRaw ?: null,
+          'email' => $email ?: null,
+          'address' => !empty($address) ? [
+              '@type' => 'PostalAddress',
+              'streetAddress' => $address,
+              'addressCountry' => 'ID',
+          ] : null,
+      ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+  @endif
 
   <script>
     window.landingData = {
@@ -74,10 +191,10 @@
   <!-- ===== NAVBAR ===== -->
   <header class="navbar" id="navbar">
     <div class="container navbar__inner">
-      <a href="#beranda" class="navbar__logo">{{ $siteName }}</a>
+      <a href="/" class="navbar__logo">{{ $siteName }}</a>
 
       <nav class="navbar__nav" id="navMenu">
-        <a href="#beranda">Beranda</a>
+        <a href="/">Beranda</a>
         <a href="#layanan">Layanan</a>
         <a href="#katalog">Katalog</a>
         <a href="#tentang">Tentang Kami</a>
@@ -469,13 +586,13 @@
         <p>{{ $settings['site_description'] ?? 'Solusi lengkap untuk kebutuhan otomotif, alat berat, properti, dan travel Anda.' }}</p>
 
         <div class="footer__socials">
-          <a href="#" aria-label="Instagram"><i class="ti ti-brand-instagram"></i></a>
-          <a href="#" aria-label="Facebook"><i class="ti ti-brand-facebook"></i></a>
+          <a href="{{ $settings['instagram_url'] ?? '' }}" aria-label="Instagram"><i class="ti ti-brand-instagram"></i></a>
+          <a href="{{ $settings['facebook_url'] ?? '' }}" aria-label="Facebook"><i class="ti ti-brand-facebook"></i></a>
         </div>
       </div>
 
       <div class="footer__links">
-        <div>
+        <div class="footer__col">
           <h4>Layanan</h4>
           @foreach($categories as $category)
             <a href="#katalog" data-tab="{{ $category->slug_name ?? Str::slug($category->name) }}">
@@ -484,19 +601,19 @@
           @endforeach
         </div>
 
-        <div>
+        <div class="footer__col">
           <h4>Perusahaan</h4>
           <a href="#tentang">Tentang Kami</a>
           <a href="#kontak">Kontak</a>
           <a href="#katalog">Katalog</a>
         </div>
 
-        <div>
+        <div class="footer__col">
           <h4>Kontak</h4>
-          @if(!empty($settings['address'])) <a href="#">{{ $settings['address'] }}</a> @endif
+          @if(!empty($settings['address'])) <a href="{{ $settings['address_url'] ?? '' }}">{{ $settings['address'] }}</a> @endif
           @if(!empty($settings['phone'])) <a href="#">{{ $settings['phone'] }}</a> @endif
           @if(!empty($settings['email'])) <a href="#">{{ $settings['email'] }}</a> @endif
-          @if(!empty($waNumber)) <a href="#">WhatsApp</a> @endif
+          @if(!empty($waNumber)) <a href="https://api.whatsapp.com/send/?phone={{ $waNumber }}">WhatsApp</a> @endif
         </div>
       </div>
     </div>

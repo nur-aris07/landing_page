@@ -4,24 +4,25 @@
         class="qa-btn edit-btn"
         title="Edit"
         data-id="{{ $setting->hash_id }}"
-        data-label="{{ $setting->label }}"
-        data-key="{{ $setting->key }}"
+        data-label="{{ e($setting->label) }}"
+        data-key="{{ e($setting->key) }}"
         data-value="{{ e($setting->value) }}"
         data-type="{{ $setting->type }}"
-        data-group="{{ $setting->group_name }}"
+        data-group="{{ e($setting->group_name) }}"
         data-description="{{ e($setting->description) }}"
         data-is_core="{{ $setting->is_core }}"
+        data-can-manage="{{ $user->role === 'superadmin' ? 1 : 0 }}"
     >
         <i class="ti ti-edit"></i>
     </button>
 
-    @if(Auth::user()->role === 'superadmin' || !$setting->is_core)
+    @if($user->role === 'superadmin')
         <button
             type="button"
             class="qa-btn delete-btn"
             title="Hapus"
             data-id="{{ $setting->hash_id }}"
-            data-label="{{ $setting->label }}"
+            data-label="{{ e($setting->label) }}"
         >
             <i class="ti ti-trash"></i>
         </button>

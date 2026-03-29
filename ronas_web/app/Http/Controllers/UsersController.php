@@ -67,12 +67,15 @@ class UsersController extends Controller
     }
 
     public function store(Request $request) {
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'name'     => 'required|string|max:100',
-            'username' => 'required|string|max:150',
-            'role'     => 'required|string|in:superadmin,admin',
+            'username' => 'required|string|max:150|unique:users,username',
             'password' => [ 'required', Password::min(8)->letters()->mixedCase()->numbers()->symbols()->max(15), 'confirmed' ],
-        ]);
+        ];
+        if (Auth::user()->role === 'superadmin') {
+            $rules['role'] = 'required|string|in:superadmin,admin';
+        }
+        $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return response()->json([
                 'status'  => 'error',
@@ -82,11 +85,15 @@ class UsersController extends Controller
         }
         
         return $this->handleDatabase(function() use ($request) {
+            $role = 'admin';
+            if (Auth::user()->role === 'superadmin') {
+                $role = $request->role;
+            }
             User::create([
                 'name'       => $request->name,
                 'username'   => $request->username,
                 'password'   => Hash::make($request->password),
-                'role'       => $request->role,
+                'role'       => $role,
                 'is_active'  => 1,
                 'created_at' => now(),
             ]);
@@ -94,13 +101,16 @@ class UsersController extends Controller
     }
 
     public function update(Request $request) {
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'id'       => 'required|string',
             'name'     => 'required|string|max:100',
             'username' => 'required|string|max:150',
-            'role'     => 'required|string|in:superadmin,admin',
             'status'   => 'required|boolean|',
-        ]);
+        ];
+        if(Auth::user()->role === 'superadmin') {
+            $rules['role'] = 'required|string|in:superadmin,admin';
+        }
+        $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return response()->json([
                 'status'  => 'error',
@@ -118,10 +128,14 @@ class UsersController extends Controller
         }
 
         return $this->handleDatabase(function() use ($user, $request) {
+            $role = $user->role;
+            if (Auth::user()->role === 'superadmin') {
+                $role = $request->role;
+            }
             $user->update([
                 'name'      => $request->name,
                 'username'  => $request->username,
-                'role'      => $request->role,
+                'role'      => $role,
                 'is_active' => $request->status,
             ]);
         }, 'Berhasil Memperbarui Data User.', true);
@@ -156,6 +170,9 @@ class UsersController extends Controller
     }
 
     public function destroy(Request $request) {
+        if (Auth::user()->role !== 'superadmin') {
+            $this->failResponse('Anda tidak memiliki akses untuk ini.', 403);
+        }
         $validator = Validator::make($request->all(), [
             'id' => 'required|string'
         ]);

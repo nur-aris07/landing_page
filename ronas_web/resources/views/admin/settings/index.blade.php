@@ -110,10 +110,12 @@
             <h1 class="page-title">Settings</h1>
             <p class="page-subtitle">Kelola konfigurasi aplikasi secara dinamis tanpa ubah kode.</p>
         </div>
-        <button id="add-btn" class="qa-btn primary">
-            <i class="ti ti-plus"></i>
-            <span>Tambah Setting</span>
-        </button>
+        @if(Auth::user()->role === 'superadmin')
+            <button id="add-btn" class="qa-btn primary">
+                <i class="ti ti-plus"></i>
+                <span>Tambah Setting</span>
+            </button>
+        @endif
     </div>
 
     <section class="card fade-in-up">
@@ -153,7 +155,7 @@
                     </button>
                 </div>
 
-                <form id="modalFormAdd" class="modal-form" action="{{ route('settings.add') }}" method="POST">
+                <form id="modalFormAdd" class="modal-form" action="{{ route('settings.add') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-group">
@@ -173,6 +175,8 @@
                                 <option value="textarea">Textarea</option>
                                 <option value="number">Number</option>
                                 <option value="boolean">Boolean</option>
+                                <option value="json">JSON</option>
+                                <option value="image">Image</option>
                                 <option value="url">URL</option>
                                 <option value="email">Email</option>
                             </select>
@@ -180,7 +184,7 @@
 
                         <div class="form-group">
                             <label class="form-label">Value</label>
-                            <input id="valueAdd" name="value" type="text" class="form-input">
+                            <div id="valueAddWrapper"></div>
                         </div>
 
                         <div class="form-group">
@@ -232,28 +236,30 @@
                     </button>
                 </div>
 
-                <form id="modalFormEdit" class="modal-form" action="{{ route('settings.update') }}" method="POST">
+                <form id="modalFormEdit" class="modal-form" action="{{ route('settings.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" id="idEdit" name="id">
 
                     <div class="modal-body">
-                        <div class="form-group">
+                        <div class="form-group metadata-field">
                             <label class="form-label">Label</label>
                             <input id="labelEdit" name="label" type="text" class="form-input" required>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group metadata-field">
                             <label class="form-label">Key</label>
                             <input id="keyEdit" name="key" type="text" class="form-input" required>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group metadata-field">
                             <label class="form-label">Type</label>
                             <select id="typeEdit" name="type" class="form-select">
                                 <option value="text">Text</option>
                                 <option value="textarea">Textarea</option>
                                 <option value="number">Number</option>
                                 <option value="boolean">Boolean</option>
+                                <option value="json">JSON</option>
+                                <option value="image">Image</option>
                                 <option value="url">URL</option>
                                 <option value="email">Email</option>
                             </select>
@@ -264,25 +270,23 @@
                             <div id="valueEditWrapper"></div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group metadata-field">
                             <label class="form-label">Group</label>
                             <input id="groupEdit" name="group_name" type="text" class="form-input">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group metadata-field">
                             <label class="form-label">Deskripsi</label>
                             <textarea id="descriptionEdit" name="description" class="form-input"></textarea>
                         </div>
-
-                        @if($isSuperadmin)
-                            <div class="form-group">
-                                <label class="form-label">Core Setting</label>
-                                <select id="isCoreEdit" name="is_core" class="form-select">
-                                    <option value="0">Tidak</option>
-                                    <option value="1">Ya</option>
-                                </select>
-                            </div>
-                        @endif
+                        
+                        <div class="form-group metadata-field">
+                            <label class="form-label">Core Setting</label>
+                            <select id="isCoreEdit" name="is_core" class="form-select">
+                                <option value="0">Tidak</option>
+                                <option value="1">Ya</option>
+                            </select>
+                        </div>
                     </div>
 
                     <div class="modal-footer">
@@ -378,7 +382,54 @@
             "timeOut": "3000"
         };
 
+        function initImageUploader(inputId, fileNameId, previewBoxId, previewImgId, removeBtnId, wrapperId, defaultText = 'Belum ada file dipilih') {
+            const $input = $('#' + inputId);
+            const $fileName = $('#' + fileNameId);
+            const $previewBox = $('#' + previewBoxId);
+            const $previewImg = $('#' + previewImgId);
+            const $removeBtn = $('#' + removeBtnId);
+            const $wrapper = $('#' + wrapperId);
+
+            if (!$input.length) return;
+
+            $input.off('change').on('change', function () {
+                const file = this.files && this.files[0];
+
+                if (!file) {
+                    $fileName.text(defaultText);
+                    $previewBox.hide();
+                    $previewImg.attr('src', '');
+                    $wrapper.removeClass('is-active');
+                    return;
+                }
+
+                $fileName.text(file.name);
+                $wrapper.addClass('is-active');
+
+                if (file.type.indexOf('image/') === 0) {
+                    const reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $previewImg.attr('src', e.target.result);
+                        $previewBox.show();
+                    };
+
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            $removeBtn.off('click').on('click', function () {
+                $input.val('');
+                $fileName.text(defaultText);
+                $previewBox.hide();
+                $previewImg.attr('src', '');
+                $wrapper.removeClass('is-active');
+            });
+        }
+
         $(document).ready(function () {
+            const isSuperadmin = @json(Auth::user()->role === 'superadmin');
+
             let table = $('#datatable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -418,15 +469,28 @@
 
             $('#add-btn').on('click', function () {
                 $('#modalFormAdd')[0].reset();
+                renderValueInputAdd($('#typeAdd').val(), '');
                 openModal('#modalAdd');
-            });            
+            });
+
+            $('#typeAdd').on('change', function () {
+                renderValueInputAdd($(this).val(), '');
+            });
+
+            $('#typeEdit').on('change', function () {
+                if ($(this).prop('disabled')) return;
+                renderValueInputEdit($(this).val(), '');
+            });
+
             $('#modalCloseAdd, #modalCancelAdd, #modalBackdropAdd').on('click', function () {
                 closeModal('#modalAdd');
             });
+
             $('#modalFormAdd').on('submit', function(e) {
                 e.preventDefault();
 
                 let form = $(this);
+                let data = new FormData(this);
                 let btn = $('#formSubmitAdd');
 
                 btn.prop('disabled', true);
@@ -436,20 +500,19 @@
                 $.ajax({
                     url: form.attr('action'),
                     method: 'POST',
-                    data: form.serialize(),
+                    data: data,
+                    processData: false,
+                    contentType: false,
                     success: function(res) {
                         closeModal('#modalAdd');
                         form[0].reset();
+                        renderValueInputAdd($('#typeAdd').val(), '');
                         table.ajax.reload(null, false);
                         toastr.success(res.message);
                     },
                     error: function(xhr) {
                         let res = xhr.responseJSON;
-                        if (xhr.status === 422) {
-                            toastr.error(res.message);
-                        } else {
-                            toastr.error(res?.message || 'Terjadi kesalahan');
-                        }
+                        toastr.error(res?.message || 'Terjadi kesalahan');
                     },
                     complete: function() {
                         btn.prop('disabled', false);
@@ -460,24 +523,33 @@
             });
 
             $(document).on('click', '.edit-btn', function () {
+                const canManage = Number($(this).data('can-manage')) === 1;
+                const type = $(this).data('type');
+                const value = $(this).data('value') ?? '';
+
                 $('#idEdit').val($(this).data('id'));
                 $('#labelEdit').val($(this).data('label'));
                 $('#keyEdit').val($(this).data('key'));
-                $('#typeEdit').val($(this).data('type'));
+                $('#typeEdit').val(type);
                 $('#groupEdit').val($(this).data('group'));
                 $('#descriptionEdit').val($(this).data('description'));
-                $('#isCoreEdit').val($(this).data('is_core'))
-                renderValueInputEdit($(this).data('type'), $(this).data('value'));
+                $('#isCoreEdit').val($(this).data('is_core'));
+
+                toggleEditMode(canManage);
+                renderValueInputEdit(type, value);
 
                 openModal('#modalEdit');
             });
+
             $('#modalCloseEdit, #modalCancelEdit, #modalBackdropEdit').on('click', function () {
                 closeModal('#modalEdit');
             });
+
             $('#modalFormEdit').on('submit', function(e) {
                 e.preventDefault();
 
                 let form = $(this);
+                let data = new FormData(this);
                 let btn = $('#formSubmitEdit');
 
                 btn.prop('disabled', true);
@@ -487,7 +559,9 @@
                 $.ajax({
                     url: form.attr('action'),
                     method: 'POST',
-                    data: form.serialize(),
+                    data: data,
+                    processData: false,
+                    contentType: false,
                     success: function(res) {
                         closeModal('#modalEdit');
                         table.ajax.reload(null, false);
@@ -495,11 +569,7 @@
                     },
                     error: function(xhr) {
                         let res = xhr.responseJSON;
-                        if (xhr.status === 422) {
-                            toastr.error(res.message);
-                        } else {
-                            toastr.error(res?.message || 'Terjadi kesalahan');
-                        }
+                        toastr.error(res?.message || 'Terjadi kesalahan');
                     },
                     complete: function() {
                         btn.prop('disabled', false);
@@ -511,15 +581,18 @@
 
             $(document).on('click', '.delete-btn', function () {
                 $('#idDelete').val($(this).data('id'));
-                $('#deleteUserName').text($(this).data('name'));
+                $('#deleteUserName').text($(this).data('label'));
                 openModal('#modalDelete');
             });
+
             $('#modalCloseDelete, #modalCancelDelete, #modalBackdropDelete').on('click', function () {
                 closeModal('#modalDelete');
             });
+
             $('#modalFormDelete').on('submit', function (e) {
                 e.preventDefault();
                 let form = $(this);
+
                 $('#formSubmitDelete').prop('disabled', true);
                 $('#formSubmitTextDelete').text('Menghapus...');
                 $('#formSpinnerDelete').removeClass('is-hidden');
@@ -535,11 +608,7 @@
                     },
                     error: function (xhr) {
                         let res = xhr.responseJSON;
-                        if (xhr.status === 422) {
-                            toastr.error(res.message);
-                        } else {
-                            toastr.error(res?.message || 'Terjadi kesalahan');
-                        }
+                        toastr.error(res?.message || 'Terjadi kesalahan');
                     },
                     complete: function() {
                         $('#formSubmitDelete').prop('disabled', false);
@@ -548,6 +617,8 @@
                     }
                 });
             });
+
+            renderValueInputAdd($('#typeAdd').val(), '');
         });
 
         function openModal(modalId) {
@@ -560,31 +631,125 @@
             $('body').css('overflow', '');
         }
 
+        function toggleEditMode(canManage) {
+            $('.metadata-field').each(function () {
+                $(this).find('input, select, textarea').prop('disabled', !canManage);
+            });
+
+            if (canManage) {
+                $('.metadata-field').show();
+            } else {
+                $('.metadata-field').hide();
+            }
+        }
+
+        function renderValueInputAdd(type, value = '') {
+            $('#valueAddWrapper').html(buildValueInputHtml(type, value, 'Add'));
+            initDynamicImageUploader('Add');
+        }
+
         function renderValueInputEdit(type, value = '') {
-            let input = '';
+            $('#valueEditWrapper').html(buildValueInputHtml(type, value, 'Edit'));
+            initDynamicImageUploader('Edit', value);
+        }
+
+        function initDynamicImageUploader(suffix, existingImage = '') {
+            if ($('#valueInput' + suffix).length) {
+                initImageUploader(
+                    'valueInput' + suffix,
+                    'valueFileName' + suffix,
+                    'valuePreviewBox' + suffix,
+                    'valuePreview' + suffix,
+                    'removeValueImage' + suffix,
+                    'valueUpload' + suffix,
+                    suffix === 'Edit' ? 'Gunakan file baru atau biarkan kosong' : 'Belum ada file dipilih'
+                );
+
+                if (existingImage && $('#valuePreview' + suffix).length) {
+                    $('#valuePreview' + suffix).attr('src', '/' + existingImage);
+                    $('#valuePreviewBox' + suffix).show();
+                    $('#valueFileName' + suffix).text('Gambar saat ini');
+                    $('#valueUpload' + suffix).addClass('is-active');
+                }
+            }
+        }
+
+        function buildValueInputHtml(type, value = '', suffix = '') {
+            value = value ?? '';
 
             switch(type) {
                 case 'textarea':
-                    input = `<textarea id="valueEdit" name="value" class="form-input">${value ?? ''}</textarea>`;
-                    break;
+                case 'json':
+                    return `<textarea id="value${suffix}" name="value" class="form-input" rows="5">${escapeHtml(value)}</textarea>`;
 
                 case 'boolean':
-                    input = `
-                        <select id="valueEdit" name="value" class="form-select">
-                            <option value="1" ${value == 1 ? 'selected' : ''}>True</option>
-                            <option value="0" ${value == 0 ? 'selected' : ''}>False</option>
-                        </select>`;
-                    break;
+                    return `
+                        <select id="value${suffix}" name="value" class="form-select">
+                            <option value="1" ${String(value) === '1' ? 'selected' : ''}>True</option>
+                            <option value="0" ${String(value) === '0' ? 'selected' : ''}>False</option>
+                        </select>
+                    `;
 
                 case 'number':
-                    input = `<input id="valueEdit" type="number" name="value" class="form-input" value="${value ?? ''}">`;
-                    break;
+                    return `<input id="value${suffix}" type="number" step="any" name="value" class="form-input" value="${escapeAttr(value)}">`;
+
+                case 'email':
+                    return `<input id="value${suffix}" type="email" name="value" class="form-input" value="${escapeAttr(value)}">`;
+
+                case 'url':
+                    return `<input id="value${suffix}" type="url" name="value" class="form-input" value="${escapeAttr(value)}">`;
+
+                case 'image':
+                    return `
+                        <div class="image-upload" id="valueUpload${suffix}">
+                            <input type="file" name="value" id="valueInput${suffix}" class="image-upload__input" accept="image/*">
+
+                            <label for="valueInput${suffix}" class="image-upload__label">
+                                <div class="image-upload__icon">
+                                    <i class="ti ti-photo-plus"></i>
+                                </div>
+
+                                <div class="image-upload__content">
+                                    <div class="image-upload__title">${suffix === 'Edit' ? 'Ubah gambar' : 'Pilih gambar'}</div>
+                                    <div class="image-upload__subtitle">
+                                        ${suffix === 'Edit'
+                                            ? 'Upload gambar baru jika ingin mengganti gambar lama'
+                                            : 'Klik untuk upload gambar'}
+                                    </div>
+                                    <div class="image-upload__meta" id="valueFileName${suffix}">
+                                        ${suffix === 'Edit' ? 'Gunakan file baru atau biarkan kosong' : 'Belum ada file dipilih'}
+                                    </div>
+                                </div>
+
+                                <span class="image-upload__button">Browse</span>
+                            </label>
+
+                            <div class="image-upload__preview" id="valuePreviewBox${suffix}" style="display:none;">
+                                <img id="valuePreview${suffix}" alt="Preview gambar">
+                                <button type="button" class="image-upload__remove" id="removeValueImage${suffix}">
+                                    <i class="ti ti-x"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <small class="form-note">Format jpg, png, webp. Maksimal 2MB.</small>
+                    `;
 
                 default:
-                    input = `<input id="valueEdit" type="text" name="value" class="form-input" value="${value ?? ''}">`;
+                    return `<input id="value${suffix}" type="text" name="value" class="form-input" value="${escapeAttr(value)}">`;
             }
+        }
 
-            $('#valueEditWrapper').html(input);
+        function escapeHtml(str) {
+            return String(str)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
+        }
+
+        function escapeAttr(str) {
+            return escapeHtml(str);
         }
     </script>
 @endpush

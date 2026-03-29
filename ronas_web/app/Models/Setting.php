@@ -24,4 +24,12 @@ class Setting extends Model
     public function getHashIdAttribute(): string {
         return Crypt::encryptString($this->id);
     }
+    
+    public function isImageType(): bool {
+        return $this->type === 'image';
+    }
+
+    public function isCore(): bool {
+        return (bool) $this->is_core;
+    }
 }
