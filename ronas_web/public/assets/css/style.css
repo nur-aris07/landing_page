@@ -5,8 +5,8 @@
 /* ---- CSS Custom Properties ---- */
 :root {
   --primary: #0A0A0A;
-  --accent: #E8B84B;
-  --accent-dark: #c99a2e;
+  --accent: #E8272B;
+  --accent-dark: #B91C1F;
   --surface: #F5F5F0;
   --text-dark: #1A1A1A;
   --text-muted: #6B6B6B;
@@ -67,8 +67,8 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   letter-spacing: .12em;
   text-transform: uppercase;
   color: var(--accent);
-  background: rgba(232,184,75,.12);
-  border: 1px solid rgba(232,184,75,.25);
+  background: rgba(192,57,43,.10);
+  border: 1px solid rgba(192,57,43,.22);
   padding: 6px 16px;
   border-radius: 50px;
   margin-bottom: 14px;
@@ -102,12 +102,12 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 }
 .btn--accent {
   background: var(--accent);
-  color: var(--primary);
+  color: var(--white);
 }
 .btn--accent:hover {
   background: var(--accent-dark);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(232,184,75,.35);
+  box-shadow: 0 8px 24px rgba(192,57,43,.30);
 }
 .btn--outline {
   background: transparent;
@@ -230,7 +230,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(232,184,75,.15) 0%, transparent 60%),
+    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(192,57,43,.18) 0%, transparent 60%),
     radial-gradient(ellipse 60% 50% at 80% 70%, rgba(59,130,246,.1) 0%, transparent 60%),
     linear-gradient(135deg, #0A0A0A 0%, #111827 50%, #0A0A0A 100%);
   z-index: 0;
@@ -358,8 +358,8 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   align-items: center;
   justify-content: center;
   border-radius: 16px;
-  background: rgba(232,184,75,.12);
-  border: 1px solid rgba(232,184,75,.2);
+  background: rgba(192,57,43,.10);
+  border: 1px solid rgba(192,57,43,.18);
   color: var(--accent);
   transition: var(--transition);
 }
@@ -369,7 +369,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 }
 .service-card:hover .service-card__icon {
   background: var(--accent);
-  color: var(--primary);
+  color: var(--white);
 }
 .service-card__title {
   font-family: 'Bebas Neue', sans-serif;
@@ -423,8 +423,8 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  background: rgba(232,184,75,.1);
-  border: 1px solid rgba(232,184,75,.18);
+  background: rgba(192,57,43,.09);
+  border: 1px solid rgba(192,57,43,.16);
   color: var(--accent);
 }
 .why-card__icon i {
@@ -474,7 +474,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 .tab-btn.active {
   color: var(--accent);
   border-color: var(--accent);
-  background: rgba(232,184,75,.08);
+  background: rgba(192,57,43,.07);
 }
 .tab-btn.active::after { left: 0; right: 0; }
 .tab-btn:hover:not(.active) {
@@ -566,8 +566,8 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
   z-index: 1;
 }
 .catalog-card__price.price--contact {
-  background: rgba(232,184,75,.9);
-  color: var(--primary);
+  background: rgba(192,57,43,.92);
+  color: var(--white);
 }
 
 /* Card body */
@@ -906,7 +906,7 @@ button { cursor: pointer; font-family: inherit; border: none; background: none; 
 .btn--outline-dark:hover {
   border-color: var(--accent);
   color: var(--text-dark);
-  background: rgba(232,184,75,.12);
+  background: rgba(192,57,43,.09);
 }
 
 .cat--default {

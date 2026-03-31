@@ -24,7 +24,7 @@
             <span class="nav-label">Master Produk</span>
             <span class="tooltip">Master Produk</span>
         </a>
-        <a href="/catalogs" class="nav-item" {{ request()->is('catalogs*') ? 'active' : '' }} data-page="katalog">
+        <a href="/catalogs" class="nav-item {{ request()->is('catalogs*') ? 'active' : '' }}" data-page="katalog">
             <i class="ti ti-layout-grid nav-icon"></i>
             <span class="nav-label">Katalog</span>
             <span class="tooltip">Katalog</span>

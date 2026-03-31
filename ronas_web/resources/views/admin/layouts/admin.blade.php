@@ -16,8 +16,8 @@
     /* ===== CSS VARIABLES ===== */
     :root {
       --primary: #0A0A0A;
-      --accent: #E8B84B;
-      --accent-dark: #c99a2e;
+      --accent: #E8272B;
+      --accent-dark: #B91C1F;
       --surface: #F5F5F0;
       --text-dark: #1A1A1A;
       --text-muted: #6B6B6B;
@@ -27,7 +27,7 @@
       --sidebar-bg: #0A0A0A;
       --sidebar-text: rgba(245,245,240,0.85);
       --sidebar-muted: rgba(245,245,240,0.35);
-      --sidebar-active-bg: rgba(232,184,75,0.12);
+      --sidebar-active-bg: rgba(192,57,43,0.12);
       --sidebar-width: 260px;
       --sidebar-collapsed: 72px;
       --topbar-h: 64px;
@@ -234,7 +234,7 @@
     }
     .sidebar-footer-avatar {
       width: 36px; height: 36px; border-radius: 50%;
-      background: var(--accent); color: var(--primary);
+      background: var(--accent); color: var(--white);
       display: flex; align-items: center; justify-content: center;
       font-weight: 600; font-size: 14px; flex-shrink: 0;
     }
@@ -321,7 +321,7 @@
     .topbar-notif:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     .topbar-notif-badge {
       position: absolute; top: 2px; right: 2px;
-      background: var(--accent); color: var(--primary);
+      background: var(--accent); color: var(--white);
       font-size: 10px; font-weight: 700;
       width: 18px; height: 18px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
@@ -332,13 +332,13 @@
     .topbar-avatar-wrap { position: relative; }
     .topbar-avatar {
       width: 36px; height: 36px; border-radius: 50%;
-      background: var(--accent); color: var(--primary);
+      background: var(--accent); color: var(--white);
       display: flex; align-items: center; justify-content: center;
       font-weight: 600; font-size: 14px;
       cursor: pointer; border: none;
       transition: box-shadow var(--transition);
     }
-    .topbar-avatar:hover { box-shadow: 0 0 0 3px rgba(232,184,75,0.3); }
+    .topbar-avatar:hover { box-shadow: 0 0 0 3px rgba(192,57,43,0.25); }
     .topbar-avatar:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
     /* Avatar Dropdown */
@@ -523,14 +523,14 @@
         box-shadow: none;
     }
     .qa-btn.primary {
-      background: var(--accent); color: var(--primary);
+      background: var(--accent); color: var(--white);
       border-color: var(--accent); font-weight: 600;
     }
     .qa-btn.primary:hover { background: var(--accent-dark); border-color: var(--accent-dark); }
 
     .tips-box {
-      background: rgba(232,184,75,0.08);
-      border: 1px solid rgba(232,184,75,0.2);
+      background: rgba(192,57,43,0.06);
+      border: 1px solid rgba(192,57,43,0.16);
       border-radius: 10px; padding: 14px;
       font-size: 13px; color: var(--text-dark);
       display: flex; align-items: flex-start; gap: 10px;
@@ -645,7 +645,7 @@
 
     .form-control:focus {
         border-color: var(--accent);
-        box-shadow: 0 0 0 3px rgba(232, 184, 75, .18);
+        box-shadow: 0 0 0 3px rgba(192,57,43,.14);
     }
 
     .modal-overlay {
@@ -845,8 +845,8 @@
     .form-input:focus,
     .form-select:focus,
     .form-textarea:focus {
-        border-color: var(--accent, #d4a63c);
-        box-shadow: 0 0 0 3px rgba(212, 166, 60, 0.15);
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(192,57,43,0.12);
     }
 
     .required-field::after {
@@ -939,20 +939,20 @@
 
     .image-upload__label:hover {
         border-color: var(--accent);
-        background: rgba(232, 184, 75, 0.06);
+        background: rgba(192,57,43,0.05);
     }
 
     .image-upload.is-active .image-upload__label {
         border-color: var(--accent);
-        box-shadow: 0 0 0 3px rgba(232, 184, 75, 0.14);
-        background: rgba(232, 184, 75, 0.05);
+        box-shadow: 0 0 0 3px rgba(192,57,43,0.12);
+        background: rgba(192,57,43,0.04);
     }
 
     .image-upload__icon {
         width: 48px;
         height: 48px;
         border-radius: 14px;
-        background: rgba(232, 184, 75, 0.12);
+        background: rgba(192,57,43,0.10);
         color: var(--accent-dark);
         display: flex;
         align-items: center;

@@ -54,8 +54,8 @@
         }
 
         .badge-role-admin {
-            background: rgba(232,184,75,.12);
-            color: #b7791f;
+            background: rgba(192,57,43,.10);
+            color: #922B21;
         }
 
         .badge-role-super {
@@ -100,7 +100,7 @@
         .dataTables_wrapper .dataTables_paginate .paginate_button.current {
             background: var(--accent) !important;
             border-color: var(--accent) !important;
-            color: #111 !important;
+            color: #fff !important;
         }
 
         #sortSpecModal .modal-dialog {

@@ -26,13 +26,13 @@
             --login-text-soft: rgba(255,255,255,.60);
             --login-input-bg: rgba(255,255,255,.06);
             --login-input-border: rgba(255,255,255,.10);
-            --login-input-focus: rgba(232,184,75,.45);
+            --login-input-focus: rgba(192,57,43,.45);
         }
 
         body.login-page {
             min-height: 100vh;
             background:
-                radial-gradient(ellipse 80% 60% at 20% 20%, rgba(232,184,75,.10) 0%, transparent 60%),
+                radial-gradient(ellipse 80% 60% at 20% 20%, rgba(192,57,43,.10) 0%, transparent 60%),
                 radial-gradient(ellipse 65% 55% at 80% 80%, rgba(59,130,246,.07) 0%, transparent 60%),
                 linear-gradient(135deg, var(--login-bg-dark) 0%, var(--login-bg-dark-2) 50%, var(--login-bg-dark) 100%);
             color: var(--login-text);
@@ -85,8 +85,8 @@
             font-weight: 600;
             letter-spacing: .10em;
             color: var(--accent);
-            background: rgba(232,184,75,.10);
-            border: 1px solid rgba(232,184,75,.18);
+            background: rgba(192,57,43,.10);
+            border: 1px solid rgba(192,57,43,.18);
             padding: 4px 10px;
             border-radius: 999px;
             margin-bottom: 10px;
@@ -156,7 +156,7 @@
 
         .form-input:focus {
             border-color: var(--login-input-focus);
-            box-shadow: 0 0 0 3px rgba(232,184,75,.10);
+            box-shadow: 0 0 0 3px rgba(192,57,43,.10);
             background: rgba(255,255,255,.07);
         }
 
